@@ -1,0 +1,12 @@
+[
+  {
+    "role": "admin",
+    "login": "superadmin",
+    "password": "erebus"
+  },
+  {
+    "role": "user",
+    "login": "default",
+    "password": "1q2w3e"
+  }
+]

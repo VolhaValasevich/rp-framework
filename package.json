@@ -1,0 +1,29 @@
+{
+  "name": "atm-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "webdriver-manager update",
+    "test:protractor": "protractor e2e/config/conf.js",
+    "test:mocha": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolhaValasevich/atm-framework.git"
+  },
+  "author": "Volha Valasevich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VolhaValasevich/atm-framework/issues"
+  },
+  "homepage": "https://github.com/VolhaValasevich/atm-framework#readme",
+  "dependencies": {
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^8.4.0",
+    "mochawesome": "^6.2.2",
+    "protractor": "^7.0.0",
+    "winston": "^3.3.3"
+  }
+}
