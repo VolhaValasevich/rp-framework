@@ -8,8 +8,10 @@ class Driver {
         this.browser = protractor.browser;
         this.by = protractor.By;
         this.element = protractor.element;
-        this.browser.waitForAngularEnabled(false);
-        this.maximizeWindow();
+    }
+
+    waitForAngularEnabled(value) {
+        return this.browser.waitForAngularEnabled(value);
     }
 
     maximizeWindow() {
