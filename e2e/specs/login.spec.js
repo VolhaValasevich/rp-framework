@@ -1,10 +1,6 @@
 'use strict';
 
 const pages = require('../po/PO');
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-chai.use(chaiAsPromised);
-const expect = chai.expect;
 const users = require('../data/users.json');
 
 describe('Report Portal Login Page', () => {

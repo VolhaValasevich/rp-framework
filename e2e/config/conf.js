@@ -12,4 +12,10 @@ exports.config = {
         timeout: 50000,
         reporter: 'mochawesome',
     },
+    onPrepare: () => {
+        const chai = require('chai');
+        const chaiAsPromised = require("chai-as-promised");
+        chai.use(chaiAsPromised);
+        global.expect = chai.expect;
+    }
 };
