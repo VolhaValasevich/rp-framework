@@ -8,18 +8,14 @@ class Page {
         this.url = url;
     }
 
-    get() {
-        return driver.get(this.url);
+    get(url = this.url) {
+        return driver.get(url);
     }
 
     async isOpened() {
         const currentUrl = await driver.getCurrentUrl();
         logger.info(`current url is ${currentUrl}, should contain ${this.url}`);
         return currentUrl.includes(this.url);
-    }
-
-    attachElement(name, selector, type) {
-        this[name] = new WebElement(selector, type);
     }
 }
 

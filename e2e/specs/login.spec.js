@@ -2,11 +2,12 @@
 
 const pages = require('../po/PO');
 const users = require('../data/users.json');
+const {verifyUserIsLoggedOut} = require('../utils/commonActions');
 
 describe('Report Portal Login Page', () => {
-    beforeEach(() => {
-        pages.setCurrentPage('Login');
-        return pages.page.get();
+    beforeEach(async () => {
+        await verifyUserIsLoggedOut();
+        pages.setCurrentPage('login');
     });
 
     it('should open login page', async () => {
@@ -19,17 +20,10 @@ describe('Report Portal Login Page', () => {
         users.forEach(user => {
             it(`should login user as ${user.role}`, async () => {
                 await pages.page.executeLogin(user.login, user.password);
-                pages.setCurrentPage('Dashboard');
+                pages.setCurrentPage('dashboard');
                 await expect(pages.page.isOpened()).to.eventually.eql(true, 'page wasn\'t opened');
                 await expect(pages.page.userMenuIcon.isPresent()).to.eventually.eql(true, 'user icon wasn\'t present');
             });
-        });
-
-        afterEach(async () => {
-            const isLoggedIn = await pages.page.userMenuIcon.isPresent();
-            if (isLoggedIn) {
-                return pages.page.executeLogout();
-            }
         });
     });
 });

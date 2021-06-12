@@ -22,9 +22,9 @@ class Driver {
         return this.element(selector);
     }
 
-    waitUntilPresent(selector) {
+    waitUntilVisible(selector) {
         logger.info(`waiting for [${selector}] to become present`);
-        return this.browser.wait(protractor.ExpectedConditions.presenceOf(this.findElement(selector)), timeouts.implicitlyWait);
+        return this.browser.wait(protractor.ExpectedConditions.visibilityOf(this.findElement(selector)), timeouts.implicitlyWait);
     }
 
     isPresent(selector) {
@@ -42,6 +42,18 @@ class Driver {
         return this.findElement(selector).sendKeys(keys);
     }
 
+    async getText(selector) {
+        const text = await this.findElement(selector).getText();
+        logger.info(`Text in [${selector}] is [${text}]`);
+        return text;
+    }
+
+    async getValue(selector) {
+        const value = await this.findElement(selector).getAttribute('value');
+        logger.info(`Value in [${selector}] is [${value}]`);
+        return value;
+    }
+
     get(url) {
         logger.info(`opening ${this.browser.params.BASE_URL + url}`);
         return this.browser.get(this.browser.params.BASE_URL + url);
@@ -50,6 +62,11 @@ class Driver {
     getCurrentUrl() {
         logger.info('getting current URL');
         return this.browser.getCurrentUrl();
+    }
+
+    openBaseUrl() {
+        logger.info(`opening ${this.browser.params.BASE_URL}`);
+        return this.browser.get(this.browser.params.BASE_URL);
     }
 }
 

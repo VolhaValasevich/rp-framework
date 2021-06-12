@@ -18,8 +18,16 @@ class WebElement {
         return driver.sendKeys(this.selector, keys);
     }
 
-    waitUntilPresent() {
-        return driver.waitUntilPresent(this.selector);
+    getText() {
+        return driver.getText(this.selector);
+    }
+
+    getValue() {
+        return driver.getValue(this.selector);
+    }
+
+    waitUntilVisible() {
+        return driver.waitUntilVisible(this.selector);
     }
 }
 

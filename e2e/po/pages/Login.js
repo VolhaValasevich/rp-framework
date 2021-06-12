@@ -1,13 +1,14 @@
 'use strict';
-const Common = require('./CommonPage');
+const Base = require('../base/Page');
+const WebElement = require('../base/WebElement');
 
-class Login extends Common {
+class Login extends Base {
     constructor() {
         super('#login');
 
-        this.attachElement('loginField', '[class*=\'login-field\'] input', 'css');
-        this.attachElement('passwordField', '[class*=\'password-field\'] input', 'css');
-        this.attachElement('loginButton', '[class*=\'login-button\'] button', 'css');
+        this.loginField = new WebElement('[class*=\'login-field\'] input', 'css');
+        this.passwordField = new WebElement('[class*=\'password-field\'] input', 'css');
+        this.loginButton = new WebElement('[class*=\'login-button\'] button', 'css');
     }
 
     async executeLogin(username, password) {
