@@ -1,6 +1,7 @@
 'use strict';
 const Page = require('../base/Page');
 const WebElement = require('../base/WebElement');
+const logger = require('../../utils/Logger');
 
 class Common extends Page {
     constructor(url) {
@@ -18,11 +19,11 @@ class Common extends Page {
     }
 
     async isOpened() {
-
         return super.isOpened();
     }
 
     async executeLogout() {
+        logger.info('logging out of the application')
         await this.userMenuIcon.click();
         return this.logoutLink.click();
     }

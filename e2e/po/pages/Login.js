@@ -1,6 +1,7 @@
 'use strict';
 const Base = require('../base/Page');
 const WebElement = require('../base/WebElement');
+const logger = require('../../utils/Logger');
 
 class Login extends Base {
     constructor() {
@@ -12,6 +13,7 @@ class Login extends Base {
     }
 
     async executeLogin(username, password) {
+        logger.info(`executing login as [${username}]`);
         await this.loginField.sendKeys(username);
         await this.passwordField.sendKeys(password);
         return this.loginButton.click();
