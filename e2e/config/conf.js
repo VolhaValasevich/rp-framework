@@ -10,6 +10,6 @@ exports.config = {
     },
     mochaOpts: {
         timeout: 50000,
-        reporter: 'mochawesome',
+        reporter: 'mochawesome-screenshots',
     },
 };
