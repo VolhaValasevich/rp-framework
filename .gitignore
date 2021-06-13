@@ -1,6 +1,5 @@
 node_modules
 .idea
 reports
-mochawesome-report
 screenshots
 *.log

@@ -12,5 +12,9 @@ exports.config = {
     mochaOpts: {
         timeout: 50000,
         reporter: 'mochawesome-screenshots',
+        reporterOptions: {
+            reportDir: 'reports',
+            clearOldScreenshots: true,
+        },
     },
 };
