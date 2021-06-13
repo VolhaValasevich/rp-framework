@@ -11,6 +11,7 @@ class Common extends Page {
         this.userName = new WebElement('[class*="userBlock__username"]', 'css');
         this.logoutLink = new WebElement('.//div[contains(@class, "userBlock__menu-item") and text()="Logout"]', 'xpath');
         this.notificationMessage = new WebElement('[class*="notificationItem__message-container"] > p', 'css');
+        this.breadcrumbs = new WebElement('.pageBreadcrumbs__page-breadcrumbs--29rem', 'css');
     }
 
     get(user) {

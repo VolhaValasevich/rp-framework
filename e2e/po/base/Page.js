@@ -12,8 +12,12 @@ class Page {
         return driver.get(url);
     }
 
+    getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
     async isOpened() {
-        const currentUrl = await driver.getCurrentUrl();
+        const currentUrl = await this.getCurrentUrl();
         logger.info(`current url is ${currentUrl}, should contain ${this.url}`);
         return currentUrl.includes(this.url);
     }
