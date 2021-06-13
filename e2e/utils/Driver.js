@@ -18,54 +18,61 @@ class Driver {
         return this.browser.driver.manage().window().maximize();
     }
 
-    findElement(selector) {
-        return this.element(selector);
+    findElement(selector, type, parent) {
+        if (parent !== null) return parent.element(this.by[type](selector))
+        return this.element(this.by[type](selector));
     }
 
-    waitUntilVisible(selector) {
-        logger.info(`waiting for [${selector}] to become present`);
-        return this.browser.wait(protractor.ExpectedConditions.visibilityOf(this.findElement(selector)), timeouts.implicitlyWait);
+    expectedCondition(shouldBe) {
+        const obj = {
+            present: protractor.ExpectedConditions.presenceOf.bind(protractor.ExpectedConditions),
+            visible: protractor.ExpectedConditions.visibilityOf.bind(protractor.ExpectedConditions),
+            invisible: protractor.ExpectedConditions.invisibilityOf.bind(protractor.ExpectedConditions),
+            gone: protractor.ExpectedConditions.stalenessOf.bind(protractor.ExpectedConditions),
+        }
+        if (!obj[shouldBe]) {
+            throw new Error(`[${shouldBe}] condition is not implemented`);
+        }
+        return obj[shouldBe];
     }
 
-    isPresent(selector) {
-        logger.info(`checking presence of [${selector}]`);
-        return this.findElement(selector).isDisplayed();
+    waitUntil(element, shouldBe) {
+        const condition = this.expectedCondition(shouldBe);
+        return this.browser.wait(condition(element), timeouts.implicitlyWait);
     }
 
-    click(selector) {
-        logger.info(`clicking on [${selector}]`);
-        return this.findElement(selector).click();
+    isDisplayed(element) {
+        return element.isDisplayed();
     }
 
-    sendKeys(selector, keys) {
-        logger.info(`typing [${keys}] in [${selector}]`);
-        return this.findElement(selector).sendKeys(keys);
+    click(element) {
+        return element.click();
     }
 
-    async getText(selector) {
-        const text = await this.findElement(selector).getText();
-        logger.info(`Text in [${selector}] is [${text}]`);
-        return text;
+    sendKeys(element, keys) {
+        return element.sendKeys(keys);
     }
 
-    async getValue(selector) {
-        const value = await this.findElement(selector).getAttribute('value');
-        logger.info(`Value in [${selector}] is [${value}]`);
-        return value;
+    getText(element) {
+        return element.getText();
+    }
+
+    getValue(element) {
+        return element.getAttribute('value');
     }
 
     get(url) {
-        logger.info(`opening ${this.browser.params.BASE_URL + url}`);
+        logger.debug(`opening ${this.browser.params.BASE_URL + url}`);
         return this.browser.get(this.browser.params.BASE_URL + url);
     }
 
     getCurrentUrl() {
-        logger.info('getting current URL');
+        logger.debug('getting current URL');
         return this.browser.getCurrentUrl();
     }
 
     openBaseUrl() {
-        logger.info(`opening ${this.browser.params.BASE_URL}`);
+        logger.debug(`opening ${this.browser.params.BASE_URL}`);
         return this.browser.get(this.browser.params.BASE_URL);
     }
 }

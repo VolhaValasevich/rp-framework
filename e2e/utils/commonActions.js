@@ -18,3 +18,11 @@ exports.verifyUserIsLoggedOut = async () => {
         return pages.page.executeLogout();
     }
 }
+
+exports.closeNotificationMessages = async () => {
+    const isMessageVisible = await pages.page.notificationMessage.isDisplayed();
+    if (isMessageVisible) {
+        await pages.page.notificationMessage.click();
+        return pages.page.notificationMessage.waitUntilInvisible();
+    }
+}
