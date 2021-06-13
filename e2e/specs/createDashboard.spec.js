@@ -15,7 +15,7 @@ users.forEach(user => {
             await pages.page.isOpened();
         });
 
-        it.only('should create dashboard', async () => {
+        it('should create dashboard', async () => {
             await pages.page.createDashboard('TESTNAME', 'testDescription');
             await expect(pages.page.isOpened()).to.eventually.be.true;
             await expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
