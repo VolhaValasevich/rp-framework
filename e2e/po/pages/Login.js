@@ -7,9 +7,9 @@ class Login extends Base {
     constructor() {
         super('#login');
 
-        this.loginField = new WebElement('[class*=\'login-field\'] input', 'css');
-        this.passwordField = new WebElement('[class*=\'password-field\'] input', 'css');
-        this.loginButton = new WebElement('[class*=\'login-button\'] button', 'css');
+        this.loginField = new WebElement('.loginForm__login-field--2NeYx input', 'css');
+        this.passwordField = new WebElement('.loginForm__password-field--2IH1A input', 'css');
+        this.loginButton = new WebElement('.loginForm__login-button-container--1mHGW button', 'css');
     }
 
     async executeLogin(username, password) {

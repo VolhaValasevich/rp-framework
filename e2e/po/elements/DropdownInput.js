@@ -6,7 +6,7 @@ class DropdownInput extends WebElement {
     constructor(selector, type) {
         super(selector, type);
 
-        this.currentValue = new WebElement('[class*="inputDropdown__value"]', 'css', this.element);
+        this.currentValue = new WebElement('.inputDropdown__value--2gB2s', 'css', this.element);
     }
 
     async selectOptionWithText(text) {

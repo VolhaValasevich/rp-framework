@@ -12,7 +12,7 @@ class GeneralSettings extends Settings {
         this.keepLaunchesInput = this.addDropdown('Keep launches');
         this.keepLogsInput = this.addDropdown('Keep logs');
         this.keepAttachmentsInput = this.addDropdown('Keep attachments');
-        this.submitButton = new WebElement('[class*="generalTab__submit-button"] > button', 'css');
+        this.submitButton = new WebElement('.generalTab__submit-button--1NatL > button', 'css');
     }
 
     addDropdown(text) {

@@ -6,7 +6,7 @@ class Settings extends Common {
     constructor(url) {
         super(`/settings${url}`);
 
-        this.settingsContainer = new WebElement('[class*=\'settingsPage__settings-page\']', 'css');
+        this.settingsContainer = new WebElement('.settingsPage__settings-page--1jj8j', 'css');
     }
 
     async isOpened() {

@@ -7,10 +7,10 @@ class Common extends Page {
     constructor(url) {
         super(url);
 
-        this.userMenuIcon = new WebElement('[class*="userBlock__menu-icon"]', 'css');
-        this.userName = new WebElement('[class*="userBlock__username"]', 'css');
+        this.userMenuIcon = new WebElement('.userBlock__menu-icon--_7G3G', 'css');
+        this.userName = new WebElement('.userBlock__username--2ZkIV', 'css');
         this.logoutLink = new WebElement('.//div[contains(@class, "userBlock__menu-item") and text()="Logout"]', 'xpath');
-        this.notificationMessage = new WebElement('[class*="notificationItem__message-container"] > p', 'css');
+        this.notificationMessage = new WebElement('.notificationItem__message-container--16jY2 > p', 'css');
         this.breadcrumbs = new WebElement('.pageBreadcrumbs__page-breadcrumbs--29rem', 'css');
     }
 
