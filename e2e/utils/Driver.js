@@ -1,5 +1,6 @@
 'use strict';
 const protractor = require('protractor');
+const normalize = require('normalize-url');
 const timeouts = require('../config/timeouts.json');
 const logger = require('./Logger');
 

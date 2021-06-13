@@ -7,6 +7,7 @@ exports.config = {
     specs: [path.resolve('./e2e/specs/*.js')],
     params: {
         BASE_URL: 'http://localhost:8080/ui/',
+        BASE_API: 'http://localhost:8080/api/v1',
     },
     mochaOpts: {
         timeout: 50000,

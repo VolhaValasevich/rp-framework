@@ -2,11 +2,15 @@
   {
     "role": "admin",
     "login": "superadmin",
-    "password": "erebus"
+    "password": "erebus",
+    "defaultProject": "superadmin_personal",
+    "token": "fd9978f4-ba87-4657-9b95-ee4048f87f6e"
   },
   {
     "role": "user",
     "login": "default",
-    "password": "1q2w3e"
+    "password": "1q2w3e",
+    "defaultProject": "default_personal",
+    "token": "42598c4c-e3e1-47d9-8780-08bc7f708868"
   }
 ]
