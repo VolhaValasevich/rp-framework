@@ -36,8 +36,8 @@ users.forEach(user => {
                         await pages.page[`${setting.key}Input`].selectOptionWithText(option);
                         await pages.page.submitButton.click();
                         await expect(pages.page[`${setting.key}Input`].getCurrentValue()).to.eventually.eql(option)
-                        await pages.page.notificationMessage.waitUntilVisible();
-                        return expect(pages.page.notificationMessage.getText()).to.eventually.eql(data.expectedNotificationText);
+                        await pages.page.successMessage.waitUntilVisible();
+                        return expect(pages.page.successMessage.getText()).to.eventually.eql(data.expectedNotificationText);
                     })
                 })
             })

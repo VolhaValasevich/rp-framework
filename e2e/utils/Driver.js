@@ -1,6 +1,5 @@
 'use strict';
 const protractor = require('protractor');
-const normalize = require('normalize-url');
 const timeouts = require('../config/timeouts.json');
 const logger = require('./Logger');
 
@@ -19,9 +18,10 @@ class Driver {
         return this.browser.driver.manage().window().maximize();
     }
 
-    findElement(selector, type, parent) {
-        if (parent !== null) return parent.element(this.by[type](selector))
-        return this.element(this.by[type](selector));
+    findElement(selector, type, parent, isArray) {
+        const root = parent ? parent : this;
+        if (isArray) return root.element.all(this.by[type](selector))
+        return root.element(this.by[type](selector));
     }
 
     expectedCondition(shouldBe) {
@@ -60,6 +60,14 @@ class Driver {
 
     getValue(element) {
         return element.getAttribute('value');
+    }
+
+    getCount(element) {
+        return element.count();
+    }
+
+    getElementByIndex(element, index) {
+        return element.get(index);
     }
 
     get(url) {

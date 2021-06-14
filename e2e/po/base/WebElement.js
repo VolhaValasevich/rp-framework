@@ -3,9 +3,9 @@ const driver = require('../../utils/Driver');
 const logger = require('../../utils/Logger');
 
 class WebElement {
-    constructor(selector, type, parent = null) {
+    constructor(selector, type, parent = null, isArray = false) {
         this.selector = `${selector} (${type})`
-        this.element = driver.findElement(selector, type, parent);
+        this.element = driver.findElement(selector, type, parent, isArray);
     }
 
     isDisplayed() {
@@ -36,13 +36,18 @@ class WebElement {
     }
 
     waitUntilVisible() {
-        logger.debug(`waiting for (${this.selector}) to become present`);
+        logger.debug(`waiting for (${this.selector}) to become visible`);
         return driver.waitUntil(this.element, 'visible');
     }
 
     waitUntilInvisible() {
-        logger.debug(`waiting for (${this.selector}) to disappear`);
+        logger.debug(`waiting for (${this.selector}) to become invisible`);
         return driver.waitUntil(this.element, 'invisible');
+    }
+
+    waitUntilGone() {
+        logger.debug(`waiting for (${this.selector}) to disappear`);
+        return driver.waitUntil(this.element, 'gone');
     }
 }
 

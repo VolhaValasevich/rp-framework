@@ -20,9 +20,10 @@ exports.verifyUserIsLoggedOut = async () => {
 }
 
 exports.closeNotificationMessages = async () => {
-    const isMessageVisible = await pages.page.notificationMessage.isDisplayed();
-    if (isMessageVisible) {
-        await pages.page.notificationMessage.click();
-        return pages.page.notificationMessage.waitUntilInvisible();
+    let count = await pages.page.notificationMessages.getCount();
+    while (count > 0) {
+        await pages.page.notificationMessages.clickByIndex(0);
+        await pages.page.notificationMessages.waitUntilGone();
+        count = await pages.page.notificationMessages.getCount();
     }
 }
