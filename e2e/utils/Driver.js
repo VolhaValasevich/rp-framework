@@ -18,7 +18,11 @@ class Driver {
         return this.browser.driver.manage().window().maximize();
     }
 
-    findElement(selector, type, parent, isArray) {
+    createSelector(selector, type) {
+        return this.by[type](selector);
+    }
+
+    getElementFinder(selector, type, parent, isArray) {
         const root = parent ? parent : this;
         if (isArray) return root.element.all(this.by[type](selector))
         return root.element(this.by[type](selector));

@@ -5,7 +5,7 @@ const logger = require('../../utils/Logger');
 class WebElement {
     constructor(selector, type, parent = null, isArray = false) {
         this.selector = `${selector} (${type})`
-        this.element = driver.findElement(selector, type, parent, isArray);
+        this.element = driver.getElementFinder(selector, type, parent, isArray);
     }
 
     isDisplayed() {
