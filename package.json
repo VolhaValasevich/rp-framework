@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "postinstall": "npx webdriver-manager update",
-    "server": "npx webdriver-manager start",
-    "test": "npx protractor e2e/config/conf.js"
+    "postinstall": "webdriver-manager update",
+    "server": "webdriver-manager start",
+    "test": "protractor e2e/config/conf.js"
   },
   "repository": {
     "type": "git",
