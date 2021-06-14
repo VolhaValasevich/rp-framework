@@ -1,7 +1,7 @@
 'use strict';
 
 const pages = require('../po/PO');
-const users = require('../data/users.json');
+const users = ENV_PARAMS.users;
 const {verifyUserIsLoggedOut} = require('../utils/commonActions');
 
 describe('Report Portal Login Page', () => {

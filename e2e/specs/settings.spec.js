@@ -1,7 +1,7 @@
 'use strict';
 
 const pages = require('../po/PO');
-const users = require('../data/users.json');
+const users = ENV_PARAMS.users;
 const data = require('../data/generalSettings.json');
 const {verifyUserIsLoggedIn, closeNotificationMessages} = require('../utils/commonActions');
 

@@ -1,7 +1,7 @@
 const axios = require('axios');
 const normalize = require('normalize-url');
 const logger = require('./Logger');
-const {BASE_API} = require('../config/conf').config.params;
+const {BASE_API} = ENV_PARAMS;
 
 class APIHelper {
     constructor() {

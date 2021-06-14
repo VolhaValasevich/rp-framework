@@ -18,10 +18,6 @@ class Driver {
         return this.browser.driver.manage().window().maximize();
     }
 
-    createSelector(selector, type) {
-        return this.by[type](selector);
-    }
-
     getElementFinder(selector, type, parent, isArray) {
         const root = parent ? parent : this;
         if (isArray) return root.element.all(this.by[type](selector))
@@ -75,8 +71,8 @@ class Driver {
     }
 
     get(url) {
-        logger.debug(`opening ${this.browser.params.BASE_URL + url}`);
-        return this.browser.get(this.browser.params.BASE_URL + url);
+        logger.debug(`opening ${ENV_PARAMS.BASE_URL + url}`);
+        return this.browser.get(ENV_PARAMS.BASE_URL + url);
     }
 
     getCurrentUrl() {
@@ -85,8 +81,8 @@ class Driver {
     }
 
     openBaseUrl() {
-        logger.debug(`opening ${this.browser.params.BASE_URL}`);
-        return this.browser.get(this.browser.params.BASE_URL);
+        logger.debug(`opening ${ENV_PARAMS.BASE_URL}`);
+        return this.browser.get(ENV_PARAMS.BASE_URL);
     }
 }
 

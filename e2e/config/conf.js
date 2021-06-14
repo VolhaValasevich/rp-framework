@@ -5,8 +5,9 @@ const args = require('../utils/paramsHelper');
 exports.config = {
     framework: 'mocha',
     directConnect: true,
-    specs: [path.resolve('./e2e/specs/*.js')],
-    capabilities: args.getCapabilities(),
+    specs: [
+        path.resolve('./e2e/specs/hooks.js'),
+        path.resolve('./e2e/specs/*.spec.js')],
     params: {
         BASE_URL: 'http://localhost:8080/ui/',
         BASE_API: 'http://localhost:8080/api/v1',
