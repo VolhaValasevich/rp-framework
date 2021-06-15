@@ -9,10 +9,15 @@ class APIHelper {
         this.baseURL = BASE_API;
     }
 
-    sendGetRequest(uri) {
+    sendGetRequest(uri, token) {
         const url = normalize(this.baseURL + uri);
         logger.debug(`GET: ${url}`);
-        return this.client.get(url);
+        return this.client.get(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `bearer ${token}`
+            }
+        });
     }
 
     sendPostRequest(uri, body, token) {
@@ -52,10 +57,31 @@ class APIHelper {
     async deleteDashboardForUser(user, dashboardId) {
         try {
             const response = await this.sendDeleteRequest(`/${user.defaultProject}/dashboard/${dashboardId}`, user.token);
-            logger.info(`Deleted the dashboard with ${dashboardId} ID`);
+            logger.info(response.data.message);
             return response;
         } catch (e) {
-            throw new Error(`Couldn't delete a dashboard with [${dashboardId}] ID: ${e.response.data.message}`)
+            throw new Error(`Couldn't delete a dashboard with [${dashboardId}] ID: ${e}`)
+        }
+    }
+
+    async getAllDashboards(user) {
+        try {
+            const response = await this.sendGetRequest(`/${user.defaultProject}/dashboard`, user.token);
+            return response.data.content;
+        } catch (e) {
+            throw new Error(`Couldn't get dashboards for user: ${e}`)
+        }
+    }
+
+    async deleteAllDashboards(user) {
+        try {
+            const dashboards = await this.getAllDashboards(user);
+            if (dashboards.length > 0) {
+                logger.info("Deleting all dashboard for user");
+                return Promise.all(dashboards.map(dashboard => this.deleteDashboardForUser(user, dashboard.id)))
+            }
+        } catch (e) {
+            throw new Error(`Couldn't delete dashboards for user: ${e}`)
         }
     }
 }

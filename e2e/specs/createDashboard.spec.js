@@ -7,7 +7,7 @@ const ApiHelper = require('../utils/APIHelper');
 const client = new ApiHelper()
 
 users.forEach(user => {
-    describe(`[${user.role}] Report Portal Dashboard Page`, () => {
+    describe.only(`[${user.role}] Report Portal Dashboard Page`, () => {
         before(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
             pages.setCurrentPage('dashboard');
@@ -21,9 +21,6 @@ users.forEach(user => {
             await expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
         })
 
-        afterEach(async () => {
-            const dashboardId = await pages.page.getCurrentID();
-            return client.deleteDashboardForUser(user, dashboardId)
-        })
+        afterEach(() => client.deleteAllDashboards(user))
     })
 });
