@@ -7,7 +7,7 @@ const ApiHelper = require('../utils/APIHelper');
 const client = new ApiHelper()
 
 users.forEach(user => {
-    describe.only(`[${user.role}] Report Portal Dashboard Page`, () => {
+    describe(`[${user.role}] Report Portal Dashboard Page`, () => {
         before(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
             pages.setCurrentPage('dashboard');
