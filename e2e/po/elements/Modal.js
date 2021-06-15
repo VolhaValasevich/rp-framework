@@ -7,7 +7,7 @@ class Modal extends WebElement {
     }
 
     clickButtonByText(text) {
-        const button = new WebElement(`.//button[text()="${text}"]`, 'xpath', this.element);
+        const button = this.attach(`.//button[text()="${text}"]`, 'xpath');
         return button.click();
     }
 

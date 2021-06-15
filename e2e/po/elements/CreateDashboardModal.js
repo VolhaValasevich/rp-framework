@@ -7,8 +7,8 @@ class CreateDashboardModal extends Modal {
     constructor() {
         super('.//div[contains(@class, "modal-window") and .//form[contains(@class, "add-dashboard-form")]]', 'xpath');
 
-        this.dashboardNameInput = new WebElement('.//div[contains(@class, "modal-field--") and .//span[text()="Name"]]//input', 'xpath', this.element);
-        this.dashboardDescriptionInput = new WebElement('.//div[contains(@class, "modal-field--") and .//span[text()="Description"]]//textarea', 'xpath', this.element);
+        this.dashboardNameInput = this.attach('.//div[contains(@class, "modal-field--") and .//span[text()="Name"]]//input', 'xpath');
+        this.dashboardDescriptionInput = this.attach('.//div[contains(@class, "modal-field--") and .//span[text()="Description"]]//textarea', 'xpath');
     }
 
     async fillDataAndCreate(name, description) {

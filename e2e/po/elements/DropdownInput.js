@@ -6,13 +6,13 @@ class DropdownInput extends WebElement {
     constructor(selector, type) {
         super(selector, type);
 
-        this.currentValue = new WebElement('.inputDropdown__value--2gB2s', 'css', this.element);
+        this.currentValue = this.attach('.inputDropdown__value--2gB2s', 'css');
     }
 
     async selectOptionWithText(text) {
         logger.info(`Selecting [${text}] in [${this.selector}]`);
         await this.click();
-        const optionWithText = new WebElement(`.//div[contains(@class, "inputDropdownOption__single-option") and contains(text(), "${text}")]`, 'xpath', this.element);
+        const optionWithText = this.attach(`.//div[contains(@class, "inputDropdownOption__single-option") and contains(text(), "${text}")]`, 'xpath');
         await optionWithText.waitUntilVisible();
         return optionWithText.click();
     }
