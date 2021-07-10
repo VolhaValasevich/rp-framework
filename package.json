@@ -1,0 +1,31 @@
+{
+  "name": "rp-framework",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "postinstall": "webdriver-manager update",
+    "server": "webdriver-manager start",
+    "test": "protractor e2e/config/conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VolhaValasevich/rp-framework.git"
+  },
+  "author": "Volha Valasevich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VolhaValasevich/rp-framework/issues"
+  },
+  "homepage": "https://github.com/VolhaValasevich/rp-framework#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^8.4.0",
+    "mochawesome-screenshots": "^1.7.3",
+    "normalize-url": "^6.0.1",
+    "protractor": "^7.0.0",
+    "winston": "^3.3.3",
+    "yargs": "^17.0.1"
+  }
+}
