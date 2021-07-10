@@ -12,7 +12,8 @@ class CreateDashboardModal extends Modal {
     }
 
     async fillDataAndCreate(name, description) {
-        logger.info(`Creating new dashboard (name: ${name}${description ? `, description: ${description}` : ''})`);
+        const descMessage = description ? `, description: ${description}` : '';
+        logger.info(`Creating new dashboard (name: ${name}${descMessage}`);
         await this.dashboardNameInput.sendKeys(name);
         if (description) await this.dashboardDescriptionInput.sendKeys(description);
         return this.clickButtonByText('Add');

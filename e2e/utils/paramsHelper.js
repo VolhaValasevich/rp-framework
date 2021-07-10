@@ -27,7 +27,7 @@ class ParamsHelper {
         switch (env) {
             case 'local': file = 'local.json'; break;
             case 'epam': file = 'epam.json'; break;
-            default: file = 'local.json'; break;;
+            default: file = 'local.json'; break;
         }
         logger.info(`Using ${file} environment config.`);
         return file;
