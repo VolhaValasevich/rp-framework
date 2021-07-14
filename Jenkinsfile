@@ -15,6 +15,6 @@ node {
     bat "npm test || exit 0"
   }
   stage('Publish artifacts') {
-    archiveArtifacts artifacts: 'reports/results.xml', followSymlinks: false
+    junit 'reports/results.xml'
   }
 }
