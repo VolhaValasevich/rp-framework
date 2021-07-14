@@ -1,5 +1,5 @@
 node {
-  stage('SCM') {
+  stage('Checkout SCM') {
     checkout scm
   }
   stage('SonarQube Analysis') {
@@ -7,5 +7,14 @@ node {
     withSonarQubeEnv() {
       bat "${scannerHome}/bin/sonar-scanner.bat"
     }
+  }
+  stage('Install packages') {
+    bat "npm i"
+  }
+  stage('Run tests') {
+    bat "npm test || exit 0"
+  }
+  stage('Publish artifacts') {
+    archiveArtifacts artifacts: 'reports/**/*', followSymlinks: false
   }
 }
