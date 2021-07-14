@@ -13,15 +13,14 @@ class WebElementArray extends WebElement {
     }
 
     async getCount() {
-        const count = await driver.getCount(this.finder);
+        const count = await this.finder.count();
         logger.debug(`Count of (${this.selector}) is [${count}]`);
         return count;
     }
 
     async clickByIndex(index) {
         logger.debug(`Clicking on #${index} of (${this.selector})`);
-        const requiredElement = await driver.getElementByIndex(this.finder, index);
-        return driver.click(requiredElement);
+        return this.finder.get(index).click();
     }
 }
 

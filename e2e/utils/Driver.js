@@ -42,34 +42,6 @@ class Driver {
         return this.browser.wait(condition(element), timeouts.implicitlyWait);
     }
 
-    isDisplayed(element) {
-        return element.isDisplayed();
-    }
-
-    click(element) {
-        return element.click();
-    }
-
-    sendKeys(element, keys) {
-        return element.sendKeys(keys);
-    }
-
-    getText(element) {
-        return element.getText();
-    }
-
-    getValue(element) {
-        return element.getAttribute('value');
-    }
-
-    getCount(element) {
-        return element.count();
-    }
-
-    getElementByIndex(element, index) {
-        return element.get(index);
-    }
-
     get(url) {
         logger.debug(`opening ${ENV_PARAMS.BASE_URL + url}`);
         return this.browser.get(ENV_PARAMS.BASE_URL + url);

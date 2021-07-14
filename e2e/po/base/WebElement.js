@@ -14,27 +14,27 @@ class WebElement {
 
     isDisplayed() {
         logger.debug(`checking presence of (${this.selector})`);
-        return driver.isDisplayed(this.finder);
+        return this.finder.isDisplayed();
     }
 
     click() {
         logger.debug(`clicking on (${this.selector})`);
-        return driver.click(this.finder);
+        return this.finder.click();
     }
 
     sendKeys(keys) {
         logger.debug(`typing [${keys}] in (${this.selector})`);
-        return driver.sendKeys(this.finder, keys);
+        return this.finder.sendKeys(keys);
     }
 
     async getText() {
-        const text = await driver.getText(this.finder);
+        const text = await this.finder.getText();
         logger.debug(`Text in (${this.selector}) is [${text}]`);
         return text;
     }
 
     async getValue() {
-        const value = await driver.getValue(this.finder);
+        const value = await this.finder.getAttribute('value');
         logger.debug(`Value in (${this.selector}) is [${value}]`);
         return value;
     }
