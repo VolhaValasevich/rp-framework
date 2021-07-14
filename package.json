@@ -22,7 +22,7 @@
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "mocha": "^8.4.0",
-    "mochawesome-screenshots": "^1.7.3",
+    "mocha-junit-reporter": "^2.0.0",
     "normalize-url": "^6.0.1",
     "protractor": "^7.0.0",
     "winston": "^3.3.3",

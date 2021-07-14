@@ -14,10 +14,9 @@ exports.config = {
     },
     mochaOpts: {
         timeout: 50000,
-        reporter: 'mochawesome-screenshots',
+        reporter: 'mocha-junit-reporter',
         reporterOptions: {
-            reportDir: 'reports',
-            clearOldScreenshots: true,
+            mochaFile: './reports/results.xml'
         },
         grep: args.getTags()
     },
