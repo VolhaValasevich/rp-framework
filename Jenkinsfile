@@ -9,6 +9,7 @@ pipeline {
                         bat "${scannerHome}/bin/sonar-scanner.bat"
                     }
                 }
+                waitForQualityGate abortPipeline: true
             }
         }
         stage('Run tests') {
