@@ -21,6 +21,7 @@ class Dashboard extends Common {
         await this.newDashboardButton.click();
         await this.createDashboardModal.waitUntilVisible();
         await this.createDashboardModal.fillDataAndCreate(name, description);
+        await this.createDashboardModal.waitUntilGone();
     }
 
     async getCurrentID() {

@@ -16,6 +16,7 @@ exports.config = {
         timeout: 50000,
         reporter: 'mocha-junit-reporter',
         reporterOptions: {
+            jenkinsMode: true,
             mochaFile: './reports/results.xml'
         },
         grep: args.getTags()
