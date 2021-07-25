@@ -12,16 +12,21 @@ pipeline {
                 waitForQualityGate abortPipeline: true
             }
         }
-        stage('Run tests') {
+        stage('Docker-compose') {
             steps {
-                bat "npm i"
-                bat "npm test"
+                bat "docker-compose up -d"
+            }
+        }
+        stage('Run tests in docker') {
+            steps {
+                bat "docker exec rp-framework npm test -- -e local-docker"
             }
         }
     }
     post {
         always {
             junit 'reports/results.xml'
+            bat "docker-compose down"
         }
     }
 }
