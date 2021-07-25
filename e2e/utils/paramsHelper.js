@@ -26,6 +26,7 @@ class ParamsHelper {
         let file;
         switch (env) {
             case 'local': file = 'local.json'; break;
+            case 'local-docker': file = 'local-docker.json'; break;
             case 'epam': file = 'epam.json'; break;
             default: file = 'local.json'; break;
         }
