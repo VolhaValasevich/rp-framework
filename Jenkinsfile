@@ -27,6 +27,7 @@ pipeline {
         always {
             junit 'reports/results.xml'
             bat "docker-compose down"
+            bat "docker rmi rp-framework_e2e"
         }
     }
 }

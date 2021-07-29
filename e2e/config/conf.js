@@ -6,6 +6,13 @@ exports.config = {
     framework: 'mocha',
     directConnect: false,
     seleniumAddress: process.env.SELENIUM_ADDRESS || "http://localhost:4444/wd/hub",
+    capabilities: {
+        browserName: 'chrome',
+        'selenoid:options': {
+            enableVNC: true,
+            enableVideo: false
+        }
+    } ,
     specs: [
         path.resolve('./e2e/specs/hooks.js'),
         path.resolve('./e2e/specs/*.spec.js')],

@@ -4,12 +4,7 @@ services:
     container_name: rp-framework
     build: .
     environment:
-       - SELENIUM_ADDRESS=http://selenium:4444/wd/hub
+       - SELENIUM_ADDRESS=http://host.docker.internal:4444/wd/hub
     volumes:
       - ./reports:/workdir/reports
     tty: true
-    depends_on:
-      - selenium
-  selenium:
-    image: selenium/standalone-chrome
-    container_name: selenium
