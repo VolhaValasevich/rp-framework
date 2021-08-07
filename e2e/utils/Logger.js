@@ -18,7 +18,7 @@ const logger = winston.createLogger({
                 }),
                 customTemplate
             ),
-            level: 'debug'
+            level: 'info'
         }),
         new winston.transports.File({
             filename: 'combined.log',

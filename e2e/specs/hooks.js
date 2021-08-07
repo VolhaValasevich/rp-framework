@@ -13,7 +13,7 @@ const env = args.getEnvironment();
 const params = require(path.resolve('./e2e/config/env', env));
 global.ENV_PARAMS = params;
 
-before("Setup hook", async () => {
+beforeAll( async () => {
     await driver.waitForAngularEnabled(false);
     await driver.maximizeWindow();
     await driver.openBaseUrl();

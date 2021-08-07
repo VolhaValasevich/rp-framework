@@ -7,7 +7,7 @@ const {verifyUserIsLoggedIn, closeNotificationMessages} = require('../utils/comm
 
 users.forEach(user => {
     describe(`[${user.role}] Report Portal General Settings Page`, () => {
-        before(async () => {
+        beforeAll(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
             pages.setCurrentPage('generalSettings');
             await pages.page.get(user.login);

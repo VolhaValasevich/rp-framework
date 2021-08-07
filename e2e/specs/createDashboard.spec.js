@@ -8,7 +8,7 @@ const client = new ApiHelper()
 
 users.forEach(user => {
     describe(`[${user.role}] Report Portal Dashboard Page`, () => {
-        before(async () => {
+        beforeAll(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
             pages.setCurrentPage('dashboard');
             await pages.page.get(user.login);
