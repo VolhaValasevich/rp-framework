@@ -33,3 +33,16 @@ Available environments:
 npm test -- --env local
 npm test -- -e epam
 ```
+
+#### Capabilities
+To run tests with certain capabilities, pass them as command line arguments.
+
+Available capabilities:
+
+--browser (-b): defines what browser will be used for running tests. Default: 'chrome'.
+--instances (-i): defines the number of WebDriver instances. Use this to run tests in parallel. Default: 1.
+
+```
+npm test -- --browserName "chrome" --maxInstances 5
+npm test -- -b "chrome" -i 5
+```

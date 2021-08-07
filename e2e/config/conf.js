@@ -7,15 +7,8 @@ exports.config = {
     framework: 'jasmine',
     directConnect: typeof process.env.SELENIUM_ADDRESS === "undefined",
     seleniumAddress: process.env.SELENIUM_ADDRESS,
-    capabilities: {
-        browserName: 'chrome',
-        'selenoid:options': {
-            enableVNC: true,
-            enableVideo: false
-        }
-    } ,
+    capabilities: args.getCapabilities(),
     specs: [
-        path.resolve('./e2e/specs/hooks.js'),
         path.resolve('./e2e/specs/*.spec.js')],
     jasmineNodeOpts: {
         print: () => null,
@@ -31,5 +24,6 @@ exports.config = {
             color: true,
             showStack: true
         }));
+        const hooks = require("../specs/hooks");
     }
 };

@@ -2,13 +2,16 @@
 const yargs = require('yargs/yargs')
 const {hideBin} = require('yargs/helpers')
 const logger = require('./Logger');
+const util = require("util");
 
 class ParamsHelper {
     constructor() {
         this.argv = yargs(hideBin(process.argv))
             .alias({
                 't': 'tags',
-                'e': 'env'
+                'e': 'env',
+                'b': 'browser',
+                'i': 'instances'
             }).argv;
     }
 
@@ -32,6 +35,15 @@ class ParamsHelper {
         }
         logger.info(`Using ${file} environment config.`);
         return file;
+    }
+
+    getCapabilities() {
+        const capabilities = {};
+        capabilities.browserName = this.argv.browser || "chrome";
+        capabilities.maxInstances = this.argv.instances || 1;
+        capabilities.shardTestFiles = capabilities.maxInstances > 1;
+        logger.info(`Browser started with capabilities: ${util.inspect(capabilities, false, null)}`);
+        return capabilities;
     }
 }
 
