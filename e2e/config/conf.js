@@ -4,8 +4,8 @@ const args = require('../utils/paramsHelper');
 
 exports.config = {
     framework: 'mocha',
-    directConnect: false,
-    seleniumAddress: process.env.SELENIUM_ADDRESS || "http://localhost:4444/wd/hub",
+    directConnect: typeof process.env.SELENIUM_ADDRESS === "undefined",
+    seleniumAddress: process.env.SELENIUM_ADDRESS,
     capabilities: {
         browserName: 'chrome',
         'selenoid:options': {
