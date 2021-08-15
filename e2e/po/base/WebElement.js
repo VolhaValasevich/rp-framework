@@ -13,8 +13,13 @@ class WebElement {
     }
 
     isDisplayed() {
-        logger.debug(`checking presence of (${this.selector})`);
+        logger.debug(`checking visibility of (${this.selector})`);
         return this.finder.isDisplayed();
+    }
+
+    isPresent() {
+        logger.debug(`checking presence of (${this.selector})`);
+        return this.finder.isPresent();
     }
 
     click() {
