@@ -6,7 +6,7 @@ const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
-global.expect = chai.expect;
+global.chai = chai;
 
 const args = require('../utils/paramsHelper');
 const env = args.getEnvironment();

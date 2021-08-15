@@ -17,8 +17,8 @@ users.forEach(user => {
 
         it('should create dashboard', async () => {
             await pages.page.createDashboard('TESTNAME', 'testDescription');
-            await expect(pages.page.isOpened()).to.eventually.be.true;
-            await expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
+            await chai.expect(pages.page.isOpened()).to.eventually.be.true;
+            await chai.expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
         })
 
         afterEach(() => client.deleteAllDashboards(user))
