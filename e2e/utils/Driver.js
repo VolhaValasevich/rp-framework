@@ -7,15 +7,17 @@ const browserConfig = require('../config/conf');
 
 class Driver {
     constructor() {
-        logger.warn('starting driver');
+        logger.info('starting driver');
         this.runner = new protractor.Runner(browserConfig.config);
-        this.browser = this.runner.createBrowser(new Plugins.Plugins(browserConfig.config));
-        this.runner.setupGlobals_(this.browser);
+        const protractorInstance = this.runner.createBrowser(new Plugins.Plugins(browserConfig.config));
+        this.runner.setupGlobals_(protractorInstance);
+        this.browser = protractor.browser;
         this.by = protractor.By;
         this.element = protractor.element;
     }
 
     stop() {
+        logger.info('shutting down Protractor instance');
         return this.runner.shutdown_();
     }
 

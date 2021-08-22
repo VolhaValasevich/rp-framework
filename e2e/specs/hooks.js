@@ -15,8 +15,8 @@ global.ENV_PARAMS = params;
 
 beforeAll( async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 120000;
-    await driver.waitForAngularEnabled(false);
     await driver.maximizeWindow();
+    await driver.waitForAngularEnabled(false);
     await driver.openBaseUrl();
     pages.setCurrentPage('login');
 });
