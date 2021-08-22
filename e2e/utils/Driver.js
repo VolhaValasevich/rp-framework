@@ -1,13 +1,22 @@
 'use strict';
 const protractor = require('protractor');
+const Plugins = require('protractor/built/plugins');
 const timeouts = require('../config/timeouts.json');
 const logger = require('./Logger');
+const browserConfig = require('../config/conf');
 
 class Driver {
     constructor() {
-        this.browser = protractor.browser;
+        logger.warn('starting driver');
+        this.runner = new protractor.Runner(browserConfig.config);
+        this.browser = this.runner.createBrowser(new Plugins.Plugins(browserConfig.config));
+        this.runner.setupGlobals_(this.browser);
         this.by = protractor.By;
         this.element = protractor.element;
+    }
+
+    stop() {
+        return this.runner.shutdown_();
     }
 
     waitForAngularEnabled(value) {

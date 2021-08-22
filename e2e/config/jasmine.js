@@ -6,7 +6,7 @@ const jasmine = new Jasmine();
 jasmine.loadConfig({
     spec_dir: 'e2e/specs',
     spec_files: [
-        'test.spec.js'
+        '*.spec.js'
     ],
     helpers: [
         'hooks.js'
