@@ -8,7 +8,7 @@ const client = new ApiHelper()
 
 users.forEach(user => {
     describe(`[${user.role}] Report Portal Dashboard Page`, () => {
-        before(async () => {
+        beforeAll(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
             pages.setCurrentPage('dashboard');
             await pages.page.get(user.login);
@@ -17,8 +17,8 @@ users.forEach(user => {
 
         it('should create dashboard', async () => {
             await pages.page.createDashboard('TESTNAME', 'testDescription');
-            await expect(pages.page.isOpened()).to.eventually.be.true;
-            await expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
+            await chai.expect(pages.page.isOpened()).to.eventually.be.true;
+            await chai.expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
         })
 
         afterEach(() => client.deleteAllDashboards(user))

@@ -2,6 +2,7 @@
 const Login = require('./pages/Login');
 const Dashboard = require('./pages/Dashboard');
 const GeneralSettings = require('./pages/GeneralSettings');
+const Launches = require('./pages/Launches');
 const logger = require('../utils/Logger');
 
 class PO {
@@ -9,7 +10,8 @@ class PO {
         this.pages = {
             login: new Login(),
             dashboard: new Dashboard(),
-            generalSettings: new GeneralSettings()
+            generalSettings: new GeneralSettings(),
+            launches: new Launches(),
         }
         this.page = null;
     }

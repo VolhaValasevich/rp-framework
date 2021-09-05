@@ -11,9 +11,9 @@ describe('Report Portal Login Page', () => {
     });
 
     it('should open login page', async () => {
-        await expect(pages.page.isOpened()).to.eventually.be.true;
-        await expect(pages.page.loginField.isDisplayed()).to.eventually.be.true;
-        await expect(pages.page.passwordField.isDisplayed()).to.eventually.be.true;
+        await chai.expect(pages.page.isOpened()).to.eventually.be.true;
+        await chai.expect(pages.page.loginField.isDisplayed()).to.eventually.be.true;
+        await chai.expect(pages.page.passwordField.isDisplayed()).to.eventually.be.true;
     });
 
     describe('Login/Logout Functionality', () => {
@@ -21,8 +21,8 @@ describe('Report Portal Login Page', () => {
             it(`should login user as ${user.role}`, async () => {
                 await pages.page.executeLogin(user.login, user.password);
                 pages.setCurrentPage('dashboard');
-                await expect(pages.page.isOpened()).to.eventually.be.true;
-                await expect(pages.page.userMenuIcon.isDisplayed()).to.eventually.be.true;
+                await chai.expect(pages.page.isOpened()).to.eventually.be.true;
+                await chai.expect(pages.page.userMenuIcon.isDisplayed()).to.eventually.be.true;
             });
         });
     });

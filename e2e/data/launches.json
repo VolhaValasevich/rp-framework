@@ -1,0 +1,122 @@
+[
+  {
+    "statistics": {
+      "total": "103",
+      "passed": "63",
+      "failed": "19",
+      "skipped": "21",
+      "product": "10",
+      "auto": "7",
+      "system": "2",
+      "investigate": "48"
+    }
+  },
+  {
+    "statistics": {
+      "total": "101",
+      "passed": "60",
+      "failed": "27",
+      "skipped": "14",
+      "product": "11",
+      "auto": "7",
+      "system": "6",
+      "investigate": "44"
+    }
+  },
+  {
+    "statistics": {
+      "total": "64",
+      "passed": "36",
+      "failed": "18",
+      "skipped": "10",
+      "product": "12",
+      "auto": "5",
+      "system": "2",
+      "investigate": "33"
+    }
+  },
+  {
+    "statistics": {
+      "total": "65",
+      "passed": "29",
+      "failed": "24",
+      "skipped": "12",
+      "product": "12",
+      "auto": "10",
+      "system": "9",
+      "investigate": "27"
+    }
+  },
+  {
+    "statistics": {
+      "total": "20",
+      "passed": "11",
+      "failed": "6",
+      "skipped": "3",
+      "product": "3",
+      "auto": null,
+      "system": "2",
+      "investigate": "19"
+    }
+  },
+  {
+    "statistics": {
+      "total": "32",
+      "passed": "16",
+      "failed": "13",
+      "skipped": "3",
+      "product": "1",
+      "auto": "5",
+      "system": "2",
+      "investigate": "17"
+    }
+  },
+  {
+    "statistics": {
+      "total": "115",
+      "passed": "65",
+      "failed": "33",
+      "skipped": "17",
+      "product": "15",
+      "auto": "16",
+      "system": "3",
+      "investigate": "42"
+    }
+  },
+  {
+    "statistics": {
+      "total": "117",
+      "passed": "67",
+      "failed": "31",
+      "skipped": "19",
+      "product": "21",
+      "auto": "12",
+      "system": "11",
+      "investigate": "68"
+    }
+  },
+  {
+    "statistics": {
+      "total": "121",
+      "passed": "80",
+      "failed": "23",
+      "skipped": "18",
+      "product": "14",
+      "auto": "6",
+      "system": "5",
+      "investigate": "49"
+    }
+  },
+  {
+    "statistics": {
+      "total": "5",
+      "passed": "4",
+      "failed": "1",
+      "skipped": null,
+      "product": null,
+      "auto": null,
+      "system": null,
+      "investigate": "3"
+    }
+  }
+]
