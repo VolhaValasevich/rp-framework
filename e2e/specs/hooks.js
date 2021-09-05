@@ -14,8 +14,11 @@ const params = require(path.resolve('./e2e/config/env', env));
 global.ENV_PARAMS = params;
 
 beforeAll( async () => {
-    await driver.waitForAngularEnabled(false);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL= 120000;
     await driver.maximizeWindow();
+    await driver.waitForAngularEnabled(false);
     await driver.openBaseUrl();
     pages.setCurrentPage('login');
 });
+
+afterAll(() => driver.stop());
