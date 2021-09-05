@@ -58,12 +58,12 @@ class WebElement {
 
     waitUntilVisible() {
         logger.debug(`waiting for (${this.selector}) to become visible`);
-        return driver.waitUntil(this.selector, 'visible');
+        return driver.waitUntil(this.selector, this.type, 'visible');
     }
 
     waitUntilGone() {
         logger.debug(`waiting for (${this.selector}) to disappear`);
-        return driver.waitUntil(this.selector, 'hidden');
+        return driver.waitUntil(this.selector, this.type, 'hidden');
     }
 }
 

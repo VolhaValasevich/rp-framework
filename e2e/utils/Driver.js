@@ -11,8 +11,13 @@ class Driver {
 
     async start() {
         logger.info('starting driver');
-        this.browser = await puppeteer.launch();
-        this.page = await this.browser.newPage();
+        this.browser = await puppeteer.launch({
+            headless: false,
+            args: ['--start-maximized']
+        });
+        const pages = await this.browser.pages();
+        this.page = pages[0];
+        await this.page.setViewport({ width: 1366, height: 768});
     }
 
     stop() {
