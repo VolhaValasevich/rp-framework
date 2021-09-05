@@ -14,6 +14,7 @@ class WebElement {
     async get() {
         await this.waitUntilVisible();
         this.finder = await driver.getElementHandle(this.selector, this.type, this.parentFinder, this.isArray);
+        if (!this.isArray && this.type === 'xpath') this.finder = this.finder[0];
     }
 
     attach(selector, type) {
