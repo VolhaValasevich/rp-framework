@@ -13,14 +13,15 @@ class WebElementArray extends WebElement {
     }
 
     async getCount() {
-        const count = await this.finder.count();
+        const count = await this.get().length;
         logger.debug(`Count of (${this.selector}) is [${count}]`);
         return count;
     }
 
     async clickByIndex(index) {
         logger.debug(`Clicking on #${index} of (${this.selector})`);
-        return this.finder.get(index).click();
+        const elementArray = await this.get();
+        return elementArray[index].click();
     }
 }
 

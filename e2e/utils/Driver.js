@@ -1,71 +1,59 @@
 'use strict';
-const protractor = require('protractor');
-const Plugins = require('protractor/built/plugins');
+const puppeteer = require('puppeteer');
 const timeouts = require('../config/timeouts.json');
 const logger = require('./Logger');
-const browserConfig = require('../config/conf');
 
 class Driver {
     constructor() {
+        this.browser = null;
+        this.page = null;
+    }
+
+    async start() {
         logger.info('starting driver');
-        this.runner = new protractor.Runner(browserConfig.config);
-        const protractorInstance = this.runner.createBrowser(new Plugins.Plugins(browserConfig.config));
-        this.runner.setupGlobals_(protractorInstance);
-        this.browser = protractor.browser;
-        this.by = protractor.By;
-        this.element = protractor.element;
+        this.browser = await puppeteer.launch();
+        this.page = await this.browser.newPage();
     }
 
     stop() {
-        logger.info('shutting down Protractor instance');
-        return this.runner.shutdown_();
+        logger.info('shutting down puppeteer');
+        return this.browser.close();
     }
 
-    waitForAngularEnabled(value) {
-        return this.browser.waitForAngularEnabled(value);
+    takeScreenshot(path) {
+        return this.page.screenshot({ path });
     }
 
-    maximizeWindow() {
-        return this.browser.driver.manage().window().maximize();
+    getElementHandle(selector, type, parent, isArray) {
+        const root = parent ? parent : this.page;
+        if (type === 'xpath') return root.$x(selector);
+        else if (isArray) return root.$$(selector)
+        else return root.$(selector);
     }
 
-    getElementFinder(selector, type, parent, isArray) {
-        const root = parent ? parent : this;
-        if (isArray) return root.element.all(this.by[type](selector))
-        return root.element(this.by[type](selector));
-    }
-
-    expectedCondition(shouldBe) {
-        const obj = {
-            present: protractor.ExpectedConditions.presenceOf.bind(protractor.ExpectedConditions),
-            visible: protractor.ExpectedConditions.visibilityOf.bind(protractor.ExpectedConditions),
-            invisible: protractor.ExpectedConditions.invisibilityOf.bind(protractor.ExpectedConditions),
-            gone: protractor.ExpectedConditions.stalenessOf.bind(protractor.ExpectedConditions),
-        }
-        if (!obj[shouldBe]) {
-            throw new Error(`[${shouldBe}] condition is not implemented`);
-        }
-        return obj[shouldBe];
-    }
-
-    waitUntil(element, shouldBe) {
-        const condition = this.expectedCondition(shouldBe);
-        return this.browser.wait(condition(element), timeouts.implicitlyWait);
+    waitUntil(selector, type, shouldBe) {
+        const options = {
+            visible: shouldBe === 'visible',
+            hidden: shouldBe === 'hidden',
+            timeout: timeouts.implicit
+        };
+        if (type === 'xpath') return this.page.waitForXPath(selector, options);
+        return this.page.waitForSelector(selector, options);
     }
 
     get(url) {
         logger.debug(`opening ${ENV_PARAMS.BASE_URL + url}`);
-        return this.browser.get(ENV_PARAMS.BASE_URL + url);
+        return this.page.goto(ENV_PARAMS.BASE_URL + url);
     }
 
     getCurrentUrl() {
         logger.debug('getting current URL');
-        return this.browser.getCurrentUrl();
+        return this.page.url();
     }
 
     openBaseUrl() {
         logger.debug(`opening ${ENV_PARAMS.BASE_URL}`);
-        return this.browser.get(ENV_PARAMS.BASE_URL);
+        return this.page.goto(ENV_PARAMS.BASE_URL);
     }
 }
 
