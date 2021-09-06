@@ -30,6 +30,10 @@ jasmineRunner.addReporter(new JasmineReporters.TerminalReporter({
     showStack: true
 }));
 
+jasmine.getEnv().addReporter( {
+    specStarted: result => jasmine.currentTest = result
+});
+
 jasmine.getEnv().specFilter = function (spec) {
     const grepMatch = !tags || spec.getFullName().match(new RegExp(tags)) != null;
     if (!grepMatch) {

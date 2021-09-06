@@ -20,4 +20,10 @@ beforeAll( async () => {
     pages.setCurrentPage('login');
 });
 
+afterEach( async () => {
+    if (jasmine.currentTest.failedExpectations.length > 0) {
+        await driver.takeScreenshot(jasmine.currentTest.fullName);
+    }
+} );
+
 afterAll(() => driver.stop());
