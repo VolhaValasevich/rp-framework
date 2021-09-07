@@ -3,9 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const puppeteer = require('puppeteer');
 const timeouts = require('../config/timeouts.json');
+const {config} = require('../config/config');
 const logger = require('./Logger');
-
-const SCREENSHOTS_DIR = './screenshots';
 
 class Driver {
     constructor() {
@@ -15,10 +14,7 @@ class Driver {
 
     async start() {
         logger.warn('starting puppeteer');
-        this.browser = await puppeteer.launch({
-            defaultViewport: { width: 1366, height: 768},
-            args: ['--window-size=1920,1080'],
-        });
+        this.browser = await puppeteer.launch(config.browserOptions);
         const pages = await this.browser.pages();
         this.page = pages[0];
     }
@@ -30,13 +26,13 @@ class Driver {
 
     async takeScreenshot(specName) {
         const filename = specName.replace(/[^a-z0-9.-]+/gi, '_');
-        if (!fs.existsSync(SCREENSHOTS_DIR)){
-            fs.mkdirSync(SCREENSHOTS_DIR);
+        if (!fs.existsSync(config.screenshotOptions.folder)){
+            fs.mkdirSync(config.screenshotOptions.folder);
         }
         try {
             await this.page.screenshot({
-                path: path.resolve(SCREENSHOTS_DIR, `${filename}.png`),
-                fullPage: false
+                fullPage: config.screenshotOptions.fullPage,
+                path: path.resolve(config.screenshotOptions.folder, `${filename}.${config.screenshotOptions.format}`)
             });
             logger.warn(`${specName} failed: taken screenshot`);
         } catch (e) {
