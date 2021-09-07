@@ -2,7 +2,6 @@
 const fs = require("fs");
 const path = require("path");
 const puppeteer = require('puppeteer');
-const timeouts = require('../config/timeouts.json');
 const {config} = require('../config/config');
 const logger = require('./Logger');
 
@@ -51,8 +50,7 @@ class Driver {
     waitUntil(selector, type, shouldBe) {
         const options = {
             visible: shouldBe === 'visible',
-            hidden: shouldBe === 'hidden',
-            timeout: timeouts.implicit
+            hidden: shouldBe === 'hidden'
         };
         if (type === 'xpath') return this.page.waitForXPath(selector, options);
         return this.page.waitForSelector(selector, options);

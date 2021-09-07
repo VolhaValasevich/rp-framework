@@ -3,32 +3,39 @@ const driver = require('../../utils/Driver');
 const logger = require('../../utils/Logger');
 
 class WebElement {
-    constructor(selector, type, parentFinder = null, isArray = false) {
+    constructor(selector, type, parent = null, isArray = false) {
         this.selector = selector;
         this.type = type;
-        this.parentFinder = parentFinder;
+        this.parent = parent;
         this.isArray = isArray;
         this.finder = null;
     }
 
     async get() {
-        await this.waitUntilVisible();
-        this.finder = await driver.getElementHandle(this.selector, this.type, this.parentFinder, this.isArray);
+        let parentFinder = null;
+        if (this.parent !== null) {
+            await this.parent.get();
+            parentFinder = this.parent.finder;
+        }
+        this.finder = await driver.getElementHandle(this.selector, this.type, parentFinder, this.isArray);
         if (!this.isArray && this.type === 'xpath') this.finder = this.finder[0];
     }
 
     attach(selector, type) {
-        return new WebElement(selector, type, this.finder);
+        return new WebElement(selector, type, this);
     }
 
     isDisplayed() {
         logger.debug(`checking visibility of (${this.selector})`);
-        return driver.page.evaluate(selector => {
-            const element = document.querySelector(selector);
+        return driver.page.evaluate((selector, type) => {
+            let element;
+            if (type === 'xpath') {
+                element = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+            } else element = document.querySelector(selector);
             const style = getComputedStyle(element);
             const rect = element.getBoundingClientRect();
             return style.visibility !== 'hidden' && !!(rect.bottom || rect.top || rect.height || rect.width);
-        }, this.selector);
+        }, this.selector, this.type);
     }
 
     async click() {
