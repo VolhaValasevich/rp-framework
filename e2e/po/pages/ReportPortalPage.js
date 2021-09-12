@@ -16,8 +16,8 @@ class Common extends Page {
         this.breadcrumbs = new WebElement('.pageBreadcrumbs__page-breadcrumbs--29rem', 'css');
     }
 
-    get(user) {
-        const url = `#${user}_personal${this.url}`;
+    get(user, route = '') {
+        const url = `#${user}_personal${this.url}/${route}`
         return super.get(url);
     }
 

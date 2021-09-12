@@ -42,6 +42,17 @@ class APIHelper {
         });
     }
 
+    sendPutRequest(uri, body, token) {
+        const url = normalize(this.baseURL + uri);
+        logger.debug(`PUT: ${url}`);
+        return this.client.put(url, body, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `bearer ${token}`
+            }
+        });
+    }
+
     async createDashboardForUser(user, name, description) {
         const body = {name};
         if (description) body.description = description;
@@ -83,6 +94,45 @@ class APIHelper {
         } catch (e) {
             throw new Error(`Couldn't delete dashboards for user: ${e}`)
         }
+    }
+
+    async createNewWidget(user, request) {
+        try {
+            const response = await this.sendPostRequest(`/${user.defaultProject}/widget/`, request, user.token);
+            logger.info(`Created a new widget (id: ${response.data.id})`);
+            return response.data.id;
+        } catch (e) {
+            throw new Error(`Couldn't create a widget: ${e.response.data.message}`)
+        }
+    }
+
+    async addWidgetOnDashboard(user, request, dashboardId) {
+        try {
+            const response = await this.sendPutRequest(`/${user.defaultProject}/dashboard/${dashboardId}/add`, request, user.token);
+            logger.info(response.data.message);
+        } catch (e) {
+            throw new Error(`Couldn't create a ${name} widget: ${e.response.data.message}`)
+        }
+    }
+
+    async createWidgetOnDashboard(user, widgetRequest, dashboardId) {
+        const widgetId = await this.createNewWidget(user, widgetRequest);
+        const addWidgetRequest = {
+            addWidget: {
+                widgetId,
+                widgetName: widgetRequest.name,
+                widgetPosition: {
+                    positionX: 0,
+                    positionY: 0
+                },
+                widgetSize: {
+                    height: 6,
+                    width: 6
+                },
+                widgetType: widgetRequest.widgetType
+            }
+        }
+        await this.addWidgetOnDashboard(user, addWidgetRequest, dashboardId);
     }
 }
 

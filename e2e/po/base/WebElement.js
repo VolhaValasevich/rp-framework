@@ -35,7 +35,10 @@ class WebElement {
             const style = getComputedStyle(element);
             const rect = element.getBoundingClientRect();
             return style.visibility !== 'hidden' && !!(rect.bottom || rect.top || rect.height || rect.width);
-        }, this.selector, this.type);
+        }, this.selector, this.type).catch(e => {
+            logger.error(`Can't check visibility of ${this.selector}: ${e.message}`);
+            return e;
+        });
     }
 
     async click() {
