@@ -24,11 +24,52 @@ describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
     });
 
     it('should display widgets', async () => {
-        const statisticTrend = await pages.page.statisticTrend.isDisplayed()
-        expect(statisticTrend).toBe(true);
         const overallStatistics = await pages.page.overallStatistics.isDisplayed()
         expect(overallStatistics).toBe(true);
+        const statisticTrend = await pages.page.statisticTrend.isDisplayed()
+        expect(statisticTrend).toBe(true);
     })
 
-    //afterEach(() => client.deleteAllDashboards(user))
+    it('should change size of the widget and its content', async () => {
+        const widgetSize = await pages.page.overallStatistics.getSize();
+        const contentSize = await pages.page.overallStatistics.widgetContent.getSize();
+        await pages.page.overallStatistics.resize({
+            x: 200,
+            y: 0
+        })
+        const newWidgetSize = await pages.page.overallStatistics.getSize();
+        const newContentSize = await pages.page.overallStatistics.widgetContent.getSize();
+
+        expect(newWidgetSize.width).toBeGreaterThan(widgetSize.width);
+        expect(newContentSize.width).toBeGreaterThan(contentSize.width);
+        expect(Math.round(newWidgetSize.height)).toBe(Math.round(widgetSize.height));
+        expect(Math.round(newContentSize.height)).toBe(Math.round(contentSize.height));
+    })
+
+    it('should move other widgets while resizing', async () => {
+        const secondWidgetSize = await pages.page.statisticTrend.getSize();
+        await pages.page.overallStatistics.resize({
+            x: 0,
+            y: 200
+        })
+        const newSecondWidgetSize = await pages.page.statisticTrend.getSize();
+
+        expect(newSecondWidgetSize.y).toBeGreaterThan(secondWidgetSize.y);
+        expect(Math.round(newSecondWidgetSize.x)).toBe(Math.round(newSecondWidgetSize.x));
+        expect(Math.round(newSecondWidgetSize.height)).toBe(Math.round(secondWidgetSize.height));
+        expect(Math.round(newSecondWidgetSize.height)).toBe(Math.round(secondWidgetSize.height));
+    })
+
+    it('should not make the widget wider than the dashboard', async () => {
+        const containerSize = await pages.page.widgetsContainer.getSize();
+        await pages.page.overallStatistics.resize({
+            x: 1000,
+            y: 0
+        })
+        const widgetSize = await pages.page.overallStatistics.getSize();
+
+        expect(widgetSize.width).toBeLessThan(containerSize.width);
+    })
+
+    afterEach(() => client.deleteAllDashboards(user))
 })

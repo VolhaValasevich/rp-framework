@@ -9,6 +9,7 @@ class Dashboard extends Common {
         super('/dashboard');
 
         this.dashboardToolbar = new WebElement('.dashboardPageToolbar__tool-bar--2emwS', 'css');
+        this.widgetsContainer = new WebElement('.widgets-grid', 'css');
         this.newDashboardButton = new WebElement('.addDashboardButton__add-dashboard-btn--_w75i', 'css');
         this.createDashboardModal = new CreateDashboardModal();
     }

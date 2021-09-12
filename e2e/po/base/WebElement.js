@@ -76,6 +76,20 @@ class WebElement {
         logger.debug(`waiting for (${this.selector}) to disappear`);
         return driver.waitUntil(this.selector, this.type, 'hidden');
     }
+
+    async getSize() {
+        await this.get();
+        return this.finder.boundingBox();
+    }
+
+    async dragAndDrop({x, y}) {
+        const boundingBox = await this.getSize();
+        const mouse = driver.page.mouse;
+        await mouse.move(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2);
+        await mouse.down();
+        await mouse.move(boundingBox.x + x, boundingBox.y + y);
+        await mouse.up();
+    }
 }
 
 module.exports = WebElement;

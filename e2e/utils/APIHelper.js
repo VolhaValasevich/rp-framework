@@ -133,6 +133,7 @@ class APIHelper {
             }
         }
         await this.addWidgetOnDashboard(user, addWidgetRequest, dashboardId);
+        return widgetId;
     }
 }
 
