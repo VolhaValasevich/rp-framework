@@ -32,13 +32,11 @@ class WebElement {
             if (type === 'xpath') {
                 element = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
             } else element = document.querySelector(selector);
+            if (!element) return false;
             const style = getComputedStyle(element);
             const rect = element.getBoundingClientRect();
             return style.visibility !== 'hidden' && !!(rect.bottom || rect.top || rect.height || rect.width);
-        }, this.selector, this.type).catch(e => {
-            logger.error(`Can't check visibility of ${this.selector}: ${e.message}`);
-            return e;
-        });
+        }, this.selector, this.type);
     }
 
     async click() {

@@ -21,6 +21,10 @@ class Page {
         logger.info(`current url is ${currentUrl}, should contain ${this.url}`);
         return currentUrl.includes(this.url);
     }
+
+    waitForResponse(route) {
+        return driver.page.waitForResponse(response => response.url().includes(route));
+    }
 }
 
 module.exports = Page;

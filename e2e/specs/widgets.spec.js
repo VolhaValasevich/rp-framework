@@ -6,18 +6,19 @@ const widgetTemplates = require('../data/widget.json');
 const {verifyUserIsLoggedIn} = require('../utils/commonActions');
 const ApiHelper = require('../utils/APIHelper');
 const client = new ApiHelper()
+let dashboardId;
 
 describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
     beforeAll(async () => {
         await verifyUserIsLoggedIn(user.login, user.password);
         await client.deleteAllDashboards(user);
 
-        const dashboardId = await client.createDashboardForUser(user, 'widgets');
+        dashboardId = await client.createDashboardForUser(user, 'widgets');
         await client.createWidgetOnDashboard(user, widgetTemplates.overallStatistics, dashboardId);
         await client.createWidgetOnDashboard(user, widgetTemplates.statisticTrend, dashboardId);
 
         pages.setCurrentPage('dashboard');
-        await pages.page.get(user, dashboardId);
+        await pages.page.get(user.login, dashboardId);
         await pages.page.isOpened();
         pages.page.addWidget("overallStatistics");
         pages.page.addWidget("statisticTrend");
@@ -46,6 +47,24 @@ describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
         expect(Math.round(newContentSize.height)).toBe(Math.round(contentSize.height));
     })
 
+    it('should receive correct response while resizing', async () => {
+        await pages.page.overallStatistics.resize({
+            x: 200,
+            y: 0
+        })
+
+        const response = await pages.page.waitForResponse(`/dashboard/${dashboardId}`);
+        const isResponseStatusOk = await response.ok();
+        let requestData = await response.request().postData();
+        requestData = JSON.parse(requestData);
+        const responseBody = await response.json();
+
+        expect(isResponseStatusOk).toBe(true);
+        expect(responseBody.message).toBe(`Dashboard with ID = '${dashboardId}' successfully updated`);
+        expect(requestData.updateWidgets).toBeDefined();
+        expect(requestData.updateWidgets.length).toBe(2);
+    })
+
     it('should move other widgets while resizing', async () => {
         const secondWidgetSize = await pages.page.statisticTrend.getSize();
         await pages.page.overallStatistics.resize({
@@ -71,5 +90,5 @@ describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
         expect(widgetSize.width).toBeLessThan(containerSize.width);
     })
 
-    afterEach(() => client.deleteAllDashboards(user))
+    afterAll(() => client.deleteAllDashboards(user))
 })
