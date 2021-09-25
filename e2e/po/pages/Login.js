@@ -12,11 +12,24 @@ class Login extends Base {
         this.loginButton = new WebElement('.loginForm__login-button-container--1mHGW button', 'css');
     }
 
+    async isOpened() {
+        await this.loginButton.waitUntilVisible();
+        return super.isOpened();
+    }
+
     async executeLogin(username, password) {
         logger.info(`executing login as [${username}]`);
         await this.loginField.sendKeys(username);
         await this.passwordField.sendKeys(password);
         return this.loginButton.click();
+    }
+
+    async executeAPILogin(username, password) {
+        logger.info(`executing login via API as [${username}]`);
+        const basicToken = await this.getLocalStorageItem('token');
+        const accessToken = await client.getAccessToken(username, password, JSON.parse(basicToken).value);
+        await this.setLocalStorageItem('token', `{"type": "bearer","value": "${accessToken}"}`);
+        return this.reload();
     }
 }
 

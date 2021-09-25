@@ -8,6 +8,7 @@ describe('Report Portal Login Page', () => {
     beforeEach(async () => {
         await verifyUserIsLoggedOut();
         pages.setCurrentPage('login');
+        await pages.page.isOpened();
     });
 
     it('should open login page', async () => {
@@ -18,8 +19,15 @@ describe('Report Portal Login Page', () => {
 
     describe('Login/Logout Functionality', () => {
         users.forEach(user => {
-            it(`should login user as ${user.role}`, async () => {
+            it(`should login user via UI as ${user.role}`, async () => {
                 await pages.page.executeLogin(user.login, user.password);
+                pages.setCurrentPage('dashboard');
+                await chai.expect(pages.page.isOpened()).to.eventually.be.true;
+                await chai.expect(pages.page.userMenuIcon.isDisplayed()).to.eventually.be.true;
+            });
+
+            it(`should login user via API as ${user.role}`, async () => {
+                await pages.page.executeAPILogin(user.login, user.password);
                 pages.setCurrentPage('dashboard');
                 await chai.expect(pages.page.isOpened()).to.eventually.be.true;
                 await chai.expect(pages.page.userMenuIcon.isDisplayed()).to.eventually.be.true;

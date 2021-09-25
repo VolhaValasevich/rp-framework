@@ -4,8 +4,6 @@ const pages = require('../po/PO');
 const user = ENV_PARAMS.users[0];
 const widgetTemplates = require('../data/widget.json');
 const {verifyUserIsLoggedIn} = require('../utils/commonActions');
-const ApiHelper = require('../utils/APIHelper');
-const client = new ApiHelper()
 let dashboardId;
 
 describe(`[${user.role}] Report Portal Widgets Resizing`, () => {

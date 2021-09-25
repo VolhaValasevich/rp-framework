@@ -13,6 +13,9 @@ const env = args.getEnvironment();
 const params = require(path.resolve('./e2e/config/env', env));
 global.ENV_PARAMS = params;
 
+const APIHelper = require("../utils/APIHelper");
+global.client = new APIHelper();
+
 beforeAll( async () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL= 120000;
     await driver.start();

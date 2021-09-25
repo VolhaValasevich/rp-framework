@@ -1,7 +1,7 @@
 const axios = require('axios');
 const normalize = require('normalize-url');
 const logger = require('./Logger');
-const {BASE_API} = ENV_PARAMS;
+const {BASE_API, BASE_UAT} = ENV_PARAMS;
 
 class APIHelper {
     constructor() {
@@ -29,6 +29,25 @@ class APIHelper {
                 'Authorization': `bearer ${token}`
             }
         });
+    }
+
+    async getAccessToken(username, password, basicToken) {
+        const url = normalize(BASE_UAT + '/sso/oauth/token');
+        try {
+            const response = await this.client.post(url,
+                `grant_type=password&username=${username}&password=${password}`,
+                {
+                    headers: {
+                        'Authorization': `Basic ${basicToken}`,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': ' application/json, text/plain, */*',
+                        'Accept-Encoding': 'gzip, deflate, br'
+                    }
+                });
+            return response.data.access_token;
+        } catch (e) {
+            throw new Error(`Couldn't get an access token: ${e.response.data.message}`)
+        }
     }
 
     sendDeleteRequest(uri, token) {

@@ -24,12 +24,6 @@ class Common extends Page {
     async isOpened() {
         return super.isOpened();
     }
-
-    async executeLogout() {
-        logger.info('logging out of the application')
-        await this.userMenuIcon.click();
-        return this.logoutLink.click();
-    }
 }
 
 module.exports = Common;

@@ -1,6 +1,7 @@
 {
   "BASE_URL": "http://host.docker.internal:8080/ui/",
   "BASE_API": "http://host.docker.internal:8080/api/v1",
+  "BASE_UAT": "http://host.docker.internal:8080/uat/",
   "users": [
     {
       "role": "admin",

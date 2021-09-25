@@ -3,8 +3,6 @@
 const pages = require('../po/PO');
 const users = ENV_PARAMS.users;
 const {verifyUserIsLoggedIn} = require('../utils/commonActions');
-const ApiHelper = require('../utils/APIHelper');
-const client = new ApiHelper()
 
 users.forEach(user => {
     describe(`[${user.role}] Report Portal Dashboard Page`, () => {
