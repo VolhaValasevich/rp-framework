@@ -21,18 +21,10 @@ describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
         dashboardId = await dashboardAPI.create( 'widgets');
 
         const overallStatisticsId = await widgetAPI.create(widgetRequests.overallStatistics)
-        await dashboardAPI.addWidget({
-            id: overallStatisticsId,
-            name: widgetRequests.overallStatistics.name,
-            type: widgetRequests.overallStatistics.widgetType
-        }, dashboardId);
+        await dashboardAPI.addWidget(overallStatisticsId, dashboardId);
 
         const statisticTrendId = await widgetAPI.create(widgetRequests.statisticTrend)
-        await dashboardAPI.addWidget({
-            id: statisticTrendId,
-            name: widgetRequests.statisticTrend.name,
-            type: widgetRequests.statisticTrend.widgetType
-        }, dashboardId);
+        await dashboardAPI.addWidget(statisticTrendId, dashboardId);
 
         pages.setCurrentPage('dashboard');
         await pages.page.get(user.login, dashboardId);

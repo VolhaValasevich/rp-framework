@@ -53,13 +53,11 @@ class Dashboard {
         }
     }
 
-    async addWidget({id, name, type}, dashboardId) {
+    async addWidget(widgetId, dashboardId) {
         try {
             const addWidgetRequest = {
                 addWidget: {
-                    widgetId: id,
-                    widgetName: name,
-                    widgetType: type,
+                    widgetId,
                     widgetPosition: {
                         positionX: 0,
                         positionY: 0
