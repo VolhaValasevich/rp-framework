@@ -8,7 +8,7 @@ const tags = args.getTags();
 jasmineRunner.loadConfig({
     spec_dir: 'e2e/specs',
     spec_files: [
-        'widgets.spec.js'
+        '*.spec.js'
     ],
     helpers: [
         'hooks.js'

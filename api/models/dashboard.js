@@ -3,18 +3,17 @@ const logger = require('../../e2e/utils/Logger');
 
 class Dashboard {
     constructor(user) {
-        this.client = new APIClient(`/api/v1/${user.defaultProject}/dashboard/`);
-        this.headers = {
+        this.client = new APIClient(`/api/v1/${user.defaultProject}/dashboard/`, {
             'Content-Type': 'application/json',
             'Authorization': `bearer ${user.token}`
-        }
+        });
     }
 
     async create(name, description) {
         const body = {name};
         if (description) body.description = description;
         try {
-            const response = await this.client.post("", body, this.headers);
+            const response = await this.client.post("", body);
             logger.info(`Created a new dashboard (name: ${name}, id: ${response.data.id})`);
             return response.data.id;
         } catch (e) {
@@ -24,7 +23,7 @@ class Dashboard {
 
     async delete(dashboardId) {
         try {
-            const response = await this.client.delete(dashboardId, this.headers);
+            const response = await this.client.delete(dashboardId);
             logger.info(response.data.message);
             return response;
         } catch (e) {
@@ -34,7 +33,7 @@ class Dashboard {
 
     async getAll() {
         try {
-            const response = await this.client.get("", this.headers);
+            const response = await this.client.get("");
             return response.data.content;
         } catch (e) {
             throw new Error(`Couldn't get dashboards for user: ${e}`)
@@ -68,7 +67,7 @@ class Dashboard {
                     },
                 }
             }
-            const response = await this.client.put(`${dashboardId}/add`, addWidgetRequest, this.headers);
+            const response = await this.client.put(`${dashboardId}/add`, addWidgetRequest);
             logger.info(response.data.message);
         } catch (e) {
             throw new Error(`Couldn't create a ${name} widget: ${e.response.data.message}`)
