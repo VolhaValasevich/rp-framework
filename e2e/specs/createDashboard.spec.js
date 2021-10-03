@@ -3,8 +3,11 @@
 const pages = require('../po/PO');
 const users = ENV_PARAMS.users;
 const {verifyUserIsLoggedIn} = require('../utils/commonActions');
+const DashboardAPI = require('../../api/models/dashboard');
 
 users.forEach(user => {
+    const dashboardAPI = new DashboardAPI(user);
+
     describe(`[${user.role}] Report Portal Dashboard Page`, () => {
         beforeAll(async () => {
             await verifyUserIsLoggedIn(user.login, user.password);
@@ -19,6 +22,6 @@ users.forEach(user => {
             await chai.expect(pages.page.breadcrumbs.getText()).to.eventually.contain('TESTNAME');
         })
 
-        afterEach(() => client.deleteAllDashboards(user))
+        afterEach(() => dashboardAPI.deleteAll())
     })
 });

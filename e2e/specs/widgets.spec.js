@@ -1,19 +1,38 @@
 'use strict';
 
 const pages = require('../po/PO');
-const user = ENV_PARAMS.users[0];
-const widgetTemplates = require('../data/widget.json');
 const {verifyUserIsLoggedIn} = require('../utils/commonActions');
+
+const DashboardAPI = require('../../api/models/dashboard');
+const WidgetAPI = require('../../api/models/widget');
+const widgetRequests = require('../../api/data/widgetRequests.json');
+
+const user = ENV_PARAMS.users[0];
 let dashboardId;
 
 describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
+    const dashboardAPI = new DashboardAPI(user);
+    const widgetAPI = new WidgetAPI(user);
+
     beforeAll(async () => {
         await verifyUserIsLoggedIn(user.login, user.password);
-        await client.deleteAllDashboards(user);
+        await dashboardAPI.deleteAll();
 
-        dashboardId = await client.createDashboardForUser(user, 'widgets');
-        await client.createWidgetOnDashboard(user, widgetTemplates.overallStatistics, dashboardId);
-        await client.createWidgetOnDashboard(user, widgetTemplates.statisticTrend, dashboardId);
+        dashboardId = await dashboardAPI.create( 'widgets');
+
+        const overallStatisticsId = await widgetAPI.create(widgetRequests.overallStatistics)
+        await dashboardAPI.addWidget({
+            id: overallStatisticsId,
+            name: widgetRequests.overallStatistics.name,
+            type: widgetRequests.overallStatistics.widgetType
+        }, dashboardId);
+
+        const statisticTrendId = await widgetAPI.create(widgetRequests.statisticTrend)
+        await dashboardAPI.addWidget({
+            id: statisticTrendId,
+            name: widgetRequests.statisticTrend.name,
+            type: widgetRequests.statisticTrend.widgetType
+        }, dashboardId);
 
         pages.setCurrentPage('dashboard');
         await pages.page.get(user.login, dashboardId);
@@ -88,5 +107,5 @@ describe(`[${user.role}] Report Portal Widgets Resizing`, () => {
         expect(widgetSize.width).toBeLessThan(containerSize.width);
     })
 
-    afterAll(() => client.deleteAllDashboards(user))
+    afterAll(() => dashboardAPI.deleteAll())
 })

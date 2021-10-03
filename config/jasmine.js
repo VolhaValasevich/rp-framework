@@ -1,6 +1,6 @@
 const Jasmine = require('jasmine');
 const JasmineReporters = require("jasmine-reporters");
-const args = require('../utils/paramsHelper');
+const args = require('../e2e/utils/paramsHelper');
 
 const jasmineRunner = new Jasmine();
 const tags = args.getTags();
@@ -8,7 +8,7 @@ const tags = args.getTags();
 jasmineRunner.loadConfig({
     spec_dir: 'e2e/specs',
     spec_files: [
-        '*.spec.js'
+        'widgets.spec.js'
     ],
     helpers: [
         'hooks.js'
