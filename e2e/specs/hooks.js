@@ -1,4 +1,5 @@
 'use strict';
+const PublicReportingAPI = require('@reportportal/agent-js-jasmine/lib/publicReportingAPI');
 const driver = require('../utils/Driver');
 const pages = require('../po/PO');
 const path = require('path');
@@ -22,8 +23,17 @@ beforeAll( async () => {
 
 afterEach( async () => {
     if (jasmine.currentTest.failedExpectations.length > 0) {
-        await driver.takeScreenshot(jasmine.currentTest.fullName);
+        const screenshot = await driver.takeScreenshot(jasmine.currentTest.fullName);
+        const attachment = {
+            name: 'screenshot.png',
+            type: 'image/png',
+            content: screenshot,
+        }
+        PublicReportingAPI.error(`${jasmine.currentTest.fullName} failed: screenshot`, attachment)
     }
 } );
 
-afterAll(() => driver.stop());
+afterAll(async () => {
+    await driver.stop();
+    return jasmine.RPAgent.getExitPromise();
+});

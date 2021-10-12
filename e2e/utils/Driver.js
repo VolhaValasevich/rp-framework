@@ -31,11 +31,12 @@ class Driver {
             fs.mkdirSync(config.screenshotOptions.folder);
         }
         try {
-            await this.page.screenshot({
+            const screenshot = await this.page.screenshot({
                 fullPage: config.screenshotOptions.fullPage,
                 path: path.resolve(config.screenshotOptions.folder, `${filename}.${config.screenshotOptions.format}`)
             });
             logger.warn(`${specName} failed: taken screenshot`);
+            return screenshot;
         } catch (e) {
             logger.error(`Could not take a screenshot: ${e.message}`);
         }

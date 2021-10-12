@@ -1,5 +1,7 @@
 const Jasmine = require('jasmine');
 const JasmineReporters = require("jasmine-reporters");
+const ReportportalAgent = require('@reportportal/agent-js-jasmine');
+const {reportPortalOptions} = require("../config/browser").config;
 const args = require('../e2e/utils/paramsHelper');
 
 const jasmineRunner = new Jasmine();
@@ -33,6 +35,9 @@ jasmineRunner.addReporter(new JasmineReporters.TerminalReporter({
 jasmine.getEnv().addReporter( {
     specStarted: result => jasmine.currentTest = result
 });
+
+jasmine.RPAgent = new ReportportalAgent(reportPortalOptions);
+jasmine.getEnv().addReporter(jasmine.RPAgent.getJasmineReporter());
 
 jasmine.getEnv().specFilter = function (spec) {
     const grepMatch = !tags || spec.getFullName().match(new RegExp(tags)) != null;
