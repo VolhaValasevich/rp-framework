@@ -10,7 +10,7 @@ global.chai = chai;
 
 const args = require('../utils/paramsHelper');
 const env = args.getEnvironment();
-const params = require(path.resolve('./e2e/config/env', env));
+const params = require(path.resolve('./config/env', env));
 global.ENV_PARAMS = params;
 
 beforeAll( async () => {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "node e2e/config/jasmine.js"
+    "test": "node config/jasmine.js"
   },
   "repository": {
     "type": "git",

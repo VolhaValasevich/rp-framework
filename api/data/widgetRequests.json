@@ -22,7 +22,7 @@
     },
     "filters": [
       {
-        "value": "119",
+        "value": "432",
         "name": "DEMO_FILTER"
       }
     ],
@@ -30,7 +30,7 @@
     "description": "",
     "share": false,
     "filterIds": [
-      "119"
+      "432"
     ]
   },
   "overallStatistics": {
@@ -55,7 +55,7 @@
     },
     "filters": [
       {
-        "value": "119",
+        "value": "432",
         "name": "DEMO_FILTER"
       }
     ],
@@ -63,7 +63,7 @@
     "description": "",
     "share": false,
     "filterIds": [
-      "119"
+      "432"
     ]
   }
 }

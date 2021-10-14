@@ -2,13 +2,14 @@
 const fs = require("fs");
 const path = require("path");
 const puppeteer = require('puppeteer');
-const {config} = require('../config/config');
+const {config} = require('../../config/browser');
 const logger = require('./Logger');
 
 class Driver {
     constructor() {
         this.browser = null;
         this.page = null;
+        this.baseURL = null;
     }
 
     async start() {
@@ -16,6 +17,7 @@ class Driver {
         this.browser = await puppeteer.launch(config.browserOptions);
         const pages = await this.browser.pages();
         this.page = pages[0];
+        this.baseURL = `${ENV_PARAMS.BASE_URL}/ui/`
     }
 
     stop() {
@@ -57,8 +59,8 @@ class Driver {
     }
 
     get(url) {
-        logger.debug(`opening ${ENV_PARAMS.BASE_URL + url}`);
-        return this.page.goto(ENV_PARAMS.BASE_URL + url);
+        logger.debug(`opening ${this.baseURL + url}`);
+        return this.page.goto(this.baseURL + url);
     }
 
     getCurrentUrl() {
@@ -67,8 +69,8 @@ class Driver {
     }
 
     openBaseUrl() {
-        logger.debug(`opening ${ENV_PARAMS.BASE_URL}`);
-        return this.page.goto(ENV_PARAMS.BASE_URL);
+        logger.debug(`opening ${this.baseURL}`);
+        return this.page.goto(this.baseURL);
     }
 }
 
