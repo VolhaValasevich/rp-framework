@@ -3,7 +3,6 @@ const PublicReportingAPI = require('@reportportal/agent-js-jasmine/lib/publicRep
 const driver = require('../utils/Driver');
 const pages = require('../po/PO');
 const path = require('path');
-const jiraReporter = require('../utils/JiraReporter');
 
 const chai = require('chai');
 const chaiAsPromised = require("chai-as-promised");
@@ -22,11 +21,8 @@ beforeAll( async () => {
     pages.setCurrentPage('login');
 });
 
-beforeEach(() => jiraReporter.startProgress(jasmine.currentTest))
-
 afterEach( async () => {
     if (jasmine.currentTest.failedExpectations.length > 0) {
-        await jiraReporter.fail(jasmine.currentTest);
         const screenshot = await driver.takeScreenshot(jasmine.currentTest.fullName);
         const attachment = {
             name: 'screenshot.png',
@@ -34,7 +30,7 @@ afterEach( async () => {
             content: screenshot,
         }
         return PublicReportingAPI.error(`${jasmine.currentTest.fullName} failed: screenshot`, attachment)
-    } else return jiraReporter.pass(jasmine.currentTest);
+    }
 } );
 
 afterAll(async () => {
