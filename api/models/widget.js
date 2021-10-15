@@ -3,7 +3,7 @@ const logger = require('../../e2e/utils/Logger');
 
 class Widget {
     constructor(user) {
-        this.client = new APIClient(`/api/v1/${user.defaultProject}/widget`, {
+        this.client = new APIClient(`${ENV_PARAMS.BASE_URL}/api/v1/${user.defaultProject}/widget`, {
             'Content-Type': 'application/json',
             'Authorization': `bearer ${user.token}`
         })

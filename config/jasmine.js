@@ -1,7 +1,8 @@
 const Jasmine = require('jasmine');
 const JasmineReporters = require("jasmine-reporters");
 const ReportportalAgent = require('@reportportal/agent-js-jasmine');
-const {reportPortalOptions} = require("../config/browser").config;
+const {reportPortalOptions} = require("./conf").config;
+const JiraReporter = require('../e2e/utils/JiraReporter');
 const args = require('../e2e/utils/paramsHelper');
 
 const jasmineRunner = new Jasmine();

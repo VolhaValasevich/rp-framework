@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const puppeteer = require('puppeteer');
-const {config} = require('../../config/browser');
+const {config} = require('../../config/conf');
 const logger = require('./Logger');
 
 class Driver {

@@ -20,5 +20,9 @@ exports.config = {
         launch: "e2e-rp",
         project: "AT_MENTORING",
         attachPicturesToLogs: true,
+    },
+    jiraOptions: {
+        url: "http://localhost:7777/rest/api/latest",
+        token: "OTk2NjIyNjQwODY3OtHcIgAXl/FX6YJXrErK9KeqX8iQ"
     }
 }

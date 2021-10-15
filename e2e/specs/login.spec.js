@@ -11,7 +11,7 @@ describe('Report Portal Login Page', () => {
         await pages.page.isOpened();
     });
 
-    it('should open login page', async () => {
+    it('should open login page [@jira(ATM-1)]', async () => {
         await chai.expect(pages.page.isOpened()).to.eventually.be.true;
         await chai.expect(pages.page.loginField.isDisplayed()).to.eventually.be.true;
         await chai.expect(pages.page.passwordField.isDisplayed()).to.eventually.be.true;
@@ -19,14 +19,14 @@ describe('Report Portal Login Page', () => {
 
     describe('Login/Logout Functionality', () => {
         users.forEach(user => {
-            it(`should login user via UI as ${user.role}`, async () => {
+            it(`should login user via UI as ${user.role} [@jira(ATM-2)]`, async () => {
                 await pages.page.executeLogin(user.login, user.password);
                 pages.setCurrentPage('dashboard');
                 await chai.expect(pages.page.isOpened()).to.eventually.be.true;
                 await chai.expect(pages.page.userMenuIcon.isDisplayed()).to.eventually.be.true;
             });
 
-            it(`should login user via API as ${user.role}`, async () => {
+            it(`should login user via API as ${user.role} [@jira(ATM-3)]`, async () => {
                 await pages.page.executeAPILogin(user.login, user.password);
                 pages.setCurrentPage('dashboard');
                 await chai.expect(pages.page.isOpened()).to.eventually.be.true;
