@@ -1,0 +1,19 @@
+apiVersion: v1alpha
+kind: puppeteer
+sauce:
+  region: eu-central-1
+  concurrency: 2
+  metadata:
+    name: rp e2e
+    build: Release $CI_COMMIT_SHORT_SHA
+defaults:
+  mode: docker
+docker:
+  fileTransfer: copy
+rootDir: ./
+puppeteer:
+  version: 10.2.0
+suites:
+  - name: "chrome"
+    testMatch: ["**/*.spec.js"]
+    browser: "chrome"

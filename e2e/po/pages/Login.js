@@ -27,9 +27,9 @@ class Login extends Base {
 
     async executeAPILogin(username, password) {
         logger.info(`executing login via API as [${username}]`);
-        const client = new AuthAPI();
         const basicToken = await this.getLocalStorageItem('token');
-        const accessToken = await client.getToken(username, password, JSON.parse(basicToken).value);
+        const client = new AuthAPI(JSON.parse(basicToken).value);
+        const accessToken = await client.getToken(username, password);
         await this.setLocalStorageItem('token', `{"type": "bearer","value": "${accessToken}"}`);
         return this.reload();
     }

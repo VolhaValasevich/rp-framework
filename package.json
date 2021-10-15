@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/VolhaValasevich/rp-framework#readme",
   "dependencies": {
+    "@reportportal/agent-js-jasmine": "^5.0.0",
     "axios": "^0.21.1",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",

@@ -3,38 +3,36 @@ const normalize = require('normalize-url');
 const logger = require('../../e2e/utils/Logger');
 
 class APIClient {
-    constructor(uri, headers) {
-        this.client = axios.default;
-        this.baseURL = normalize(`${ENV_PARAMS.BASE_URL}/${uri}`);
-        this.defaultHeaders = headers;
+    constructor(url, headers) {
+        this.baseURL = normalize(url);
+        this.client = axios.create({
+            baseURL: this.baseURL,
+            headers: headers
+        });
     }
 
-    get(uri, headers) {
+    get(uri) {
         const url = normalize(`${this.baseURL}/${uri}`);
-        const config = { headers: headers || this.defaultHeaders }
         logger.debug(`GET: ${url}`);
-        return this.client.get(url, config);
+        return this.client.get(uri);
     }
 
-    post(uri, body, headers) {
+    post(uri, body) {
         const url = normalize(`${this.baseURL}/${uri}`);
-        const config = { headers: headers || this.defaultHeaders }
         logger.debug(`POST: ${url}`);
-        return this.client.post(url, body, config);
+        return this.client.post(uri, body);
     }
 
-    delete(uri, headers) {
+    delete(uri) {
         const url = normalize(`${this.baseURL}/${uri}`);
-        const config = { headers: headers || this.defaultHeaders }
         logger.debug(`DELETE: ${url}`);
-        return this.client.delete(url, config);
+        return this.client.delete(uri);
     }
 
-    put(uri, body, headers) {
+    put(uri, body) {
         const url = normalize(`${this.baseURL}/${uri}`);
-        const config = { headers: headers || this.defaultHeaders }
         logger.debug(`PUT: ${url}`);
-        return this.client.put(url, body, config);
+        return this.client.put(uri, body);
     }
 }
 
