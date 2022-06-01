@@ -1,71 +1,76 @@
 'use strict';
-const protractor = require('protractor');
-const Plugins = require('protractor/built/plugins');
-const timeouts = require('../config/timeouts.json');
+const fs = require("fs");
+const path = require("path");
+const puppeteer = require('puppeteer');
+const {config} = require('../../config/browser');
 const logger = require('./Logger');
-const browserConfig = require('../config/conf');
 
 class Driver {
     constructor() {
-        logger.info('starting driver');
-        this.runner = new protractor.Runner(browserConfig.config);
-        const protractorInstance = this.runner.createBrowser(new Plugins.Plugins(browserConfig.config));
-        this.runner.setupGlobals_(protractorInstance);
-        this.browser = protractor.browser;
-        this.by = protractor.By;
-        this.element = protractor.element;
+        this.browser = null;
+        this.page = null;
+        this.baseURL = null;
+    }
+
+    async start() {
+        logger.warn('starting puppeteer');
+        this.browser = await puppeteer.launch(config.browserOptions);
+        const pages = await this.browser.pages();
+        this.page = pages[0];
+        this.baseURL = `${ENV_PARAMS.BASE_URL}/ui/`
     }
 
     stop() {
-        logger.info('shutting down Protractor instance');
-        return this.runner.shutdown_();
+        logger.warn('shutting down puppeteer');
+        return this.browser.close();
     }
 
-    waitForAngularEnabled(value) {
-        return this.browser.waitForAngularEnabled(value);
-    }
-
-    maximizeWindow() {
-        return this.browser.driver.manage().window().maximize();
-    }
-
-    getElementFinder(selector, type, parent, isArray) {
-        const root = parent ? parent : this;
-        if (isArray) return root.element.all(this.by[type](selector))
-        return root.element(this.by[type](selector));
-    }
-
-    expectedCondition(shouldBe) {
-        const obj = {
-            present: protractor.ExpectedConditions.presenceOf.bind(protractor.ExpectedConditions),
-            visible: protractor.ExpectedConditions.visibilityOf.bind(protractor.ExpectedConditions),
-            invisible: protractor.ExpectedConditions.invisibilityOf.bind(protractor.ExpectedConditions),
-            gone: protractor.ExpectedConditions.stalenessOf.bind(protractor.ExpectedConditions),
+    async takeScreenshot(specName) {
+        const filename = specName.replace(/[^a-z0-9.-]+/gi, '_');
+        if (!fs.existsSync(config.screenshotOptions.folder)){
+            fs.mkdirSync(config.screenshotOptions.folder);
         }
-        if (!obj[shouldBe]) {
-            throw new Error(`[${shouldBe}] condition is not implemented`);
+        try {
+            await this.page.screenshot({
+                fullPage: config.screenshotOptions.fullPage,
+                path: path.resolve(config.screenshotOptions.folder, `${filename}.${config.screenshotOptions.format}`)
+            });
+            logger.warn(`${specName} failed: taken screenshot`);
+        } catch (e) {
+            logger.error(`Could not take a screenshot: ${e.message}`);
         }
-        return obj[shouldBe];
+
     }
 
-    waitUntil(element, shouldBe) {
-        const condition = this.expectedCondition(shouldBe);
-        return this.browser.wait(condition(element), timeouts.implicitlyWait);
+    getElementHandle(selector, type, parent, isArray) {
+        const root = parent ? parent : this.page;
+        if (type === 'xpath') return root.$x(selector);
+        else if (isArray) return root.$$(selector)
+        else return root.$(selector);
+    }
+
+    waitUntil(selector, type, shouldBe) {
+        const options = {
+            visible: shouldBe === 'visible',
+            hidden: shouldBe === 'hidden'
+        };
+        if (type === 'xpath') return this.page.waitForXPath(selector, options);
+        return this.page.waitForSelector(selector, options);
     }
 
     get(url) {
-        logger.debug(`opening ${ENV_PARAMS.BASE_URL + url}`);
-        return this.browser.get(ENV_PARAMS.BASE_URL + url);
+        logger.debug(`opening ${this.baseURL + url}`);
+        return this.page.goto(this.baseURL + url);
     }
 
     getCurrentUrl() {
         logger.debug('getting current URL');
-        return this.browser.getCurrentUrl();
+        return this.page.url();
     }
 
     openBaseUrl() {
-        logger.debug(`opening ${ENV_PARAMS.BASE_URL}`);
-        return this.browser.get(ENV_PARAMS.BASE_URL);
+        logger.debug(`opening ${this.baseURL}`);
+        return this.page.goto(this.baseURL);
     }
 }
 

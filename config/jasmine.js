@@ -1,6 +1,6 @@
 const Jasmine = require('jasmine');
 const JasmineReporters = require("jasmine-reporters");
-const args = require('../utils/paramsHelper');
+const args = require('../e2e/utils/paramsHelper');
 
 const jasmineRunner = new Jasmine();
 const tags = args.getTags();
@@ -29,6 +29,10 @@ jasmineRunner.addReporter(new JasmineReporters.TerminalReporter({
     color: true,
     showStack: true
 }));
+
+jasmine.getEnv().addReporter( {
+    specStarted: result => jasmine.currentTest = result
+});
 
 jasmine.getEnv().specFilter = function (spec) {
     const grepMatch = !tags || spec.getFullName().match(new RegExp(tags)) != null;

@@ -21,7 +21,7 @@ class TestDataRow extends WebElement {
 
     async getTestNumberFor(key) {
         if (this.dataTypes.includes(key)) {
-            const isDataPresent = await this[key].isPresent();
+            const isDataPresent = await this[key].isDisplayed();
             if (isDataPresent) {
                 return this[key].getText();
             }

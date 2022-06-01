@@ -1,7 +1,7 @@
 const axios = require('axios');
 const normalize = require('normalize-url');
 const logger = require('./Logger');
-const {BASE_API} = ENV_PARAMS;
+const {BASE_API, BASE_UAT} = ENV_PARAMS;
 
 class APIHelper {
     constructor() {
@@ -31,10 +31,40 @@ class APIHelper {
         });
     }
 
+    async getAccessToken(username, password, basicToken) {
+        const url = normalize(BASE_UAT + '/sso/oauth/token');
+        try {
+            const response = await this.client.post(url,
+                `grant_type=password&username=${username}&password=${password}`,
+                {
+                    headers: {
+                        'Authorization': `Basic ${basicToken}`,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': ' application/json, text/plain, */*',
+                        'Accept-Encoding': 'gzip, deflate, br'
+                    }
+                });
+            return response.data.access_token;
+        } catch (e) {
+            throw new Error(`Couldn't get an access token: ${e.response.data.message}`)
+        }
+    }
+
     sendDeleteRequest(uri, token) {
         const url = normalize(this.baseURL + uri);
         logger.debug(`DELETE: ${url}`);
         return this.client.delete(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `bearer ${token}`
+            }
+        });
+    }
+
+    sendPutRequest(uri, body, token) {
+        const url = normalize(this.baseURL + uri);
+        logger.debug(`PUT: ${url}`);
+        return this.client.put(url, body, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `bearer ${token}`
@@ -83,6 +113,46 @@ class APIHelper {
         } catch (e) {
             throw new Error(`Couldn't delete dashboards for user: ${e}`)
         }
+    }
+
+    async createNewWidget(user, request) {
+        try {
+            const response = await this.sendPostRequest(`/${user.defaultProject}/widget/`, request, user.token);
+            logger.info(`Created a new widget (id: ${response.data.id})`);
+            return response.data.id;
+        } catch (e) {
+            throw new Error(`Couldn't create a widget: ${e.response.data.message}`)
+        }
+    }
+
+    async addWidgetOnDashboard(user, request, dashboardId) {
+        try {
+            const response = await this.sendPutRequest(`/${user.defaultProject}/dashboard/${dashboardId}/add`, request, user.token);
+            logger.info(response.data.message);
+        } catch (e) {
+            throw new Error(`Couldn't create a ${name} widget: ${e.response.data.message}`)
+        }
+    }
+
+    async createWidgetOnDashboard(user, widgetRequest, dashboardId) {
+        const widgetId = await this.createNewWidget(user, widgetRequest);
+        const addWidgetRequest = {
+            addWidget: {
+                widgetId,
+                widgetName: widgetRequest.name,
+                widgetPosition: {
+                    positionX: 0,
+                    positionY: 0
+                },
+                widgetSize: {
+                    height: 6,
+                    width: 6
+                },
+                widgetType: widgetRequest.widgetType
+            }
+        }
+        await this.addWidgetOnDashboard(user, addWidgetRequest, dashboardId);
+        return widgetId;
     }
 }
 

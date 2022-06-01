@@ -1,6 +1,7 @@
 'use strict';
 const Common = require('./ReportPortalPage');
 const WebElement = require('../base/WebElement');
+const Widget = require('../elements/Widget');
 const CreateDashboardModal = require('../elements/CreateDashboardModal');
 
 class Dashboard extends Common {
@@ -8,6 +9,7 @@ class Dashboard extends Common {
         super('/dashboard');
 
         this.dashboardToolbar = new WebElement('.dashboardPageToolbar__tool-bar--2emwS', 'css');
+        this.widgetsContainer = new WebElement('.widgets-grid', 'css');
         this.newDashboardButton = new WebElement('.addDashboardButton__add-dashboard-btn--_w75i', 'css');
         this.createDashboardModal = new CreateDashboardModal();
     }
@@ -27,6 +29,10 @@ class Dashboard extends Common {
     async getCurrentID() {
         const url = await this.getCurrentUrl();
         return url.split('/').pop();
+    }
+
+    addWidget(name) {
+        this[name] = new Widget(`.//div[contains(@class, "widgetsGrid__widget-view") and .//div[text()="${name}"]]`, 'xpath');
     }
 }
 

@@ -13,7 +13,6 @@ class DropdownInput extends WebElement {
         logger.info(`Selecting [${text}] in [${this.selector}]`);
         await this.click();
         const optionWithText = this.attach(`.//div[contains(@class, "inputDropdownOption__single-option") and contains(text(), "${text}")]`, 'xpath');
-        await optionWithText.waitUntilVisible();
         return optionWithText.click();
     }
 
